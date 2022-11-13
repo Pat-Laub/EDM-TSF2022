@@ -1,0 +1,69 @@
+---
+title: Empirical Dynamic Modelling
+subtitle: Automatic Causal Analysis and Forecasting<br>TSF 2022
+author: Dr Patrick Laub
+date: today
+format:
+  revealjs:
+    theme: [serif, custom.scss]
+    controls: true
+    controls-tutorial: true
+    logo: unsw-logo.svg
+    title-slide-attributes:
+      data-background-image: unsw-yellow-shape.png
+      data-background-size: contain !important
+    slide-number: c/t
+    strip-comments: true
+    margin: 0.2
+    chalkboard:
+      boardmarker-width: 5
+      grid: false
+    include-before: <div class="line right"></div>
+    footer: Patrick Laub, Time-Series and Forecasting Symposium, University of Sydney
+highlight-style: breeze
+execute:
+  echo: true
+---
+
+## Plan
+
+
+1. Causal inference
+2. Prediction
+
+## About me
+
+- Uni Melbourne
+
+## Stata package {.smaller}
+
+<br>
+<div style="border: 3px dashed #555"><img src="stata-journal-paper-title.png" /></div>
+<br>
+
+::: columns
+::: column
+Jinjing Li<br>
+University of Canberra
+
+George Sugihara<br>
+University of California San Diego
+:::
+::: column
+Michael J. Zyphur<br>
+University of Queensland
+
+Patrick J. Laub<br>
+University of NSW
+:::
+:::
+
+## Stata package
+
+<iframe src="https://edm-developers.github.io/EDM/" width="100%" height="600" style="border:none;">
+</iframe>
+
+## R package
+
+<iframe src="https://edm-developers.github.io/fastEDM/" width="100%" height="600" style="border:none;">
+</iframe>
