@@ -27,13 +27,28 @@ execute:
 
 ## Plan
 
+1. Taken's Theorem: A magic trick
+2. Demos
+	1. Causal inference
+	2. Prediction
 
-1. Causal inference
-2. Prediction
+## Taken's Theorem
+
+## Key idea
+
+If $x$ causes $y$, then information about $x$ is somehow embedded in $y$.
+
+By observing $y$, we should be able to (roughly) forecast $x$.
+
+By observing more of $y$ (more "training data"), do our forecasts of $x$ become more accurate?
 
 ## About me
 
 - Uni Melbourne
+
+## Fish brains
+
+Keichi work
 
 ## Stata package {.smaller}
 
@@ -67,3 +82,11 @@ University of NSW
 
 <iframe src="https://edm-developers.github.io/fastEDM/" width="100%" height="600" style="border:none;">
 </iframe>
+
+
+## Sydney house price forecasting
+
+```{python}
+import fastEDM
+dir(fastEDM)
+```
