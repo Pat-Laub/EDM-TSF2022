@@ -1,0 +1,180 @@
+---
+title: Core Logic House Price Index Prediction
+format:
+  html:
+    strip-comments: true
+highlight-style: breeze
+jupyter: python3
+execute:
+  keep-ipynb: true
+  echo: true
+---
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from fastEDM import edm
+
+NUM_THREADS = 8
+```
+
+
+```{python}
+df = pd.read_csv("University of NSW Market Trends - 20210818T145801.csv", low_memory=False)
+
+df = df.loc[pd.notna(df["postcode"])]
+df["postcode"] = df["postcode"].astype(int)
+
+df["value_at_date"] = pd.to_datetime(df["value_at_date"])
+df
+```
+
+```{python}
+#| label: reduce-dataset
+df = df.loc[df["state"] == "NSW"]
+df = df.loc[df["value_at_date"].dt.year >= 2010]
+df = df.loc[df["property_type"] == "Houses"]
+
+# Rename often-used "Hedonic Home Value Index" to HPI (read: home price index).
+df.rename(columns={"Hedonic Home Value Index": "HPI"}, inplace=True)
+```
+
+
+```{python}
+# "time" column holds the # months since 1980
+df["time"] = (df["value_at_date"].dt.year-1980)*12 + df["value_at_date"].dt.month
+```
+
+
+```{python}
+# https://www.matthewproctor.com/australian_postcodes
+australian_postcodes = pd.read_csv("australian_postcodes.csv")
+```
+
+
+```{python}
+#| label: remove-postcodes-with-few-observations
+counts = df["postcode"].value_counts()
+boring_postcodes = list(counts[counts < 12].index)
+
+print(f"# Postcodes with few observations: {len(boring_postcodes)}")
+print(f"Postcodes with few observations: {boring_postcodes}")
+
+df = df[~df["postcode"].isin(boring_postcodes)]
+```
+
+```{python}
+#| label: amount-of-boring-data
+np.mean(np.diff(df["HPI"]) == 0)
+```
+
+```{python}
+#| label: plot-before
+df.groupby("postcode").plot(x="time", y="HPI", legend=False, ax=plt.gca());
+```
+
+```{python}
+#| label: remove-repeated-value-postcodes
+# TODO
+```
+
+```{python}
+sorted(np.unique(df["sa4_name16"]))
+```
+
+
+```{python}
+#| label: plot-hpi
+df.groupby("postcode").plot(x="time", y="HPI", legend=False, ax=plt.gca());
+```
+
+```{python}
+#| label: plot-yield
+df.groupby("postcode").plot(x="time", y="Hedonic Rental Yields", legend=False, ax=plt.gca());
+```
+
+```{python}
+#| label: rescale
+hpi_start_values = df.groupby("postcode").first()["HPI"]
+
+for postcode in hpi_start_values.index:
+	df.loc[df["postcode"] == postcode, "HPI"] *= 1 / hpi_start_values[postcode] * 100
+```
+
+```{python}
+#| label: plot-rescaled
+df.groupby("postcode").plot(x="time", y="HPI", legend=False, ax=plt.gca());
+```
+
+
+```{python}
+#| label: check-scaled-five-years-out
+pws = [0, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, float("inf")]
+rhos = np.zeros_like(pws)
+
+df[["HPI_norm"]] = (df[["HPI"]] - df[["HPI"]].mean()) / df[["HPI"]].std()
+
+for i, pw in enumerate(pws):
+  t = df["time"]
+  x = df["HPI_norm"]
+  panel = df["postcode"]
+  res = edm(t, x, panel = panel,
+    panelWeight = pw, p = 5 * 12,
+	predictWithPast = True,
+    numThreads = NUM_THREADS,
+    full = True,
+	showProgressBar=False,
+	verbosity = 0,
+  )
+  rhos[i] = res["summary"]["rho"]
+
+pd.DataFrame({"panelWeight": pws, "rho": rhos})
+```
+
+```{python}
+plt.plot(rhos)
+plt.xticks(list(range(len(pws))), pws);
+```
+
+```{python}
+t = df["time"]
+x = df["HPI_norm"]
+panel = df["postcode"]
+
+res = edm(t, x, panel = panel,
+	panelWeight = float("inf"), p = 5 * 12,
+	predictWithPast = True,
+	numThreads = NUM_THREADS,
+	full = True,
+	showProgressBar=False,
+	saveTargets=True,
+	savePredictions=True,
+	saveManifolds=True,
+	verbosity = 0,
+)
+```
+
+```{python}
+preds = pd.DataFrame({"targets": res["targets"].flatten(), "predictions": res["predictions"].flatten()})
+preds = preds.dropna()
+print(np.corrcoef(preds["targets"], preds["predictions"])[0,1])
+preds.plot.scatter("targets", "predictions");
+```
+
+```{python}
+# yearAgo = res["Mps"][0][:,0]
+
+# preds = pd.DataFrame({"targets": res["targets"].flatten(), "baseline-predictions": yearAgo})
+# preds = preds.dropna()
+# print(np.corrcoef(preds["targets"], preds["baseline-predictions"])[0,1])
+# preds.plot.scatter("targets", "baseline-predictions");
+
+```
+
+```{python}
+
+
+```
