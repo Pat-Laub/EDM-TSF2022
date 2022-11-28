@@ -109,13 +109,15 @@ for postcode in hpi_start_values.index:
 df.groupby("postcode").plot(x="time", y="HPI", legend=False, ax=plt.gca());
 ```
 
+```{python}
+#| label: normalise-hpi
+df[["HPI_norm"]] = (df[["HPI"]] - df[["HPI"]].mean()) / df[["HPI"]].std()
+``` 
 
 ```{python}
 #| label: check-scaled-five-years-out
 pws = [0, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, float("inf")]
 rhos = np.zeros_like(pws)
-
-df[["HPI_norm"]] = (df[["HPI"]] - df[["HPI"]].mean()) / df[["HPI"]].std()
 
 for i, pw in enumerate(pws):
   t = df["time"]
@@ -153,7 +155,7 @@ res = edm(t, x, panel = panel,
 	saveTargets=True,
 	savePredictions=True,
 	saveManifolds=True,
-	verbosity = 0,
+	verbosity = 2,
 )
 ```
 
@@ -165,16 +167,55 @@ preds.plot.scatter("targets", "predictions");
 ```
 
 ```{python}
-# yearAgo = res["Mps"][0][:,0]
+yearAgo = res["Ms"][0][:,0]
 
-# preds = pd.DataFrame({"targets": res["targets"].flatten(), "baseline-predictions": yearAgo})
-# preds = preds.dropna()
-# print(np.corrcoef(preds["targets"], preds["baseline-predictions"])[0,1])
-# preds.plot.scatter("targets", "baseline-predictions");
+targets = res["targets"].flatten()
+targets = targets[~np.isnan(targets)]
+preds = pd.DataFrame({"targets": targets, "baseline-predictions": yearAgo})
+preds = preds.dropna()
+print(np.corrcoef(preds["targets"], preds["baseline-predictions"])[0,1])
+preds.plot.scatter("targets", "baseline-predictions");
 
 ```
 
+
 ```{python}
+res = edm(t, x, panel = panel,
+	panelWeight = float("inf"), p = 5 * 12,
+	theta = 0.1,
+	predictWithPast = True,
+	numThreads = NUM_THREADS,
+	algorithm="smap",
+	full = True,
+	showProgressBar=False,
+	# saveTargets=True,
+	# savePredictions=True,
+	# saveManifolds=True,
+	verbosity = 2,
+)
+if "summary" in res.keys():
+	print(res["summary"])
+```
 
+```{python}
+res = edm(t, x, panel = panel,
+	panelWeight = float("inf"), p = 5 * 12,
+	theta = 0.0001,
+	predictWithPast = True,
+	numThreads = NUM_THREADS,
+	algorithm="smap",
+	full = True,
+	showProgressBar=False,
+	saveTargets=True,
+	savePredictions=True,
+	saveManifolds=True,
+	verbosity = 2,
+)
+```
 
+```{python}
+preds = pd.DataFrame({"targets": res["targets"].flatten(), "predictions": res["predictions"].flatten()})
+preds = preds.dropna()
+print(np.corrcoef(preds["targets"], preds["predictions"])[0,1])
+preds.plot.scatter("targets", "predictions");
 ```

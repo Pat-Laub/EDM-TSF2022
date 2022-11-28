@@ -415,28 +415,29 @@ Postcodes with few observations: [2625]</code></pre>
 <p><img src="core-logic-house-price-prediction-python_files/figure-html/plot-rescaled-output-1.png" id="plot-rescaled" width="575" height="429"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pws <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">10000</span>, <span class="bu">float</span>(<span class="st">"inf"</span>)]</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>rhos <span class="op">=</span> np.zeros_like(pws)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"HPI_norm"</span>]] <span class="op">=</span> (df[[<span class="st">"HPI"</span>]] <span class="op">-</span> df[[<span class="st">"HPI"</span>]].mean()) <span class="op">/</span> df[[<span class="st">"HPI"</span>]].std()</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, pw <span class="kw">in</span> <span class="bu">enumerate</span>(pws):</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> df[<span class="st">"time"</span>]</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> df[<span class="st">"HPI_norm"</span>]</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  panel <span class="op">=</span> df[<span class="st">"postcode"</span>]</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  res <span class="op">=</span> edm(t, x, panel <span class="op">=</span> panel,</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    panelWeight <span class="op">=</span> pw, p <span class="op">=</span> <span class="dv">5</span> <span class="op">*</span> <span class="dv">12</span>,</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    predictWithPast <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    numThreads <span class="op">=</span> NUM_THREADS,</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    full <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    showProgressBar<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    verbosity <span class="op">=</span> <span class="dv">0</span>,</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  rhos[i] <span class="op">=</span> res[<span class="st">"summary"</span>][<span class="st">"rho"</span>]</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"panelWeight"</span>: pws, <span class="st">"rho"</span>: rhos})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="check-scaled-five-years-out" class="cell-output cell-output-display" data-execution_count="15">
+<div id="normalise-hpi" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"HPI_norm"</span>]] <span class="op">=</span> (df[[<span class="st">"HPI"</span>]] <span class="op">-</span> df[[<span class="st">"HPI"</span>]].mean()) <span class="op">/</span> df[[<span class="st">"HPI"</span>]].std()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pws <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">10000</span>, <span class="bu">float</span>(<span class="st">"inf"</span>)]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>rhos <span class="op">=</span> np.zeros_like(pws)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, pw <span class="kw">in</span> <span class="bu">enumerate</span>(pws):</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> df[<span class="st">"time"</span>]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> df[<span class="st">"HPI_norm"</span>]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  panel <span class="op">=</span> df[<span class="st">"postcode"</span>]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  res <span class="op">=</span> edm(t, x, panel <span class="op">=</span> panel,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    panelWeight <span class="op">=</span> pw, p <span class="op">=</span> <span class="dv">5</span> <span class="op">*</span> <span class="dv">12</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    predictWithPast <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    numThreads <span class="op">=</span> NUM_THREADS,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    full <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    showProgressBar<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    verbosity <span class="op">=</span> <span class="dv">0</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  rhos[i] <span class="op">=</span> res[<span class="st">"summary"</span>][<span class="st">"rho"</span>]</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"panelWeight"</span>: pws, <span class="st">"rho"</span>: rhos})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="check-scaled-five-years-out" class="cell-output cell-output-display" data-execution_count="16">
 
 <div>
 
@@ -504,49 +505,169 @@ Postcodes with few observations: [2625]</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>plt.plot(rhos)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>plt.xticks(<span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(pws))), pws)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="core-logic-house-price-prediction-python_files/figure-html/cell-17-output-1.png" width="579" height="414"></p>
-</div>
-</div>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> df[<span class="st">"time"</span>]</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> df[<span class="st">"HPI_norm"</span>]</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>panel <span class="op">=</span> df[<span class="st">"postcode"</span>]</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> edm(t, x, panel <span class="op">=</span> panel,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    panelWeight <span class="op">=</span> <span class="bu">float</span>(<span class="st">"inf"</span>), p <span class="op">=</span> <span class="dv">5</span> <span class="op">*</span> <span class="dv">12</span>,</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    predictWithPast <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    numThreads <span class="op">=</span> NUM_THREADS,</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    full <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    showProgressBar<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    saveTargets<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    savePredictions<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    saveManifolds<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    verbosity <span class="op">=</span> <span class="dv">0</span>,</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plt.plot(rhos)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>plt.xticks(<span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(pws))), pws)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="core-logic-house-price-prediction-python_files/figure-html/cell-18-output-1.png" width="579" height="414"></p>
+</div>
 </div>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> pd.DataFrame({<span class="st">"targets"</span>: res[<span class="st">"targets"</span>].flatten(), <span class="st">"predictions"</span>: res[<span class="st">"predictions"</span>].flatten()})</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> preds.dropna()</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.corrcoef(preds[<span class="st">"targets"</span>], preds[<span class="st">"predictions"</span>])[<span class="dv">0</span>,<span class="dv">1</span>])</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>preds.plot.scatter(<span class="st">"targets"</span>, <span class="st">"predictions"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> df[<span class="st">"time"</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> df[<span class="st">"HPI_norm"</span>]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>panel <span class="op">=</span> df[<span class="st">"postcode"</span>]</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> edm(t, x, panel <span class="op">=</span> panel,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    panelWeight <span class="op">=</span> <span class="bu">float</span>(<span class="st">"inf"</span>), p <span class="op">=</span> <span class="dv">5</span> <span class="op">*</span> <span class="dv">12</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    predictWithPast <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    numThreads <span class="op">=</span> NUM_THREADS,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    full <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    showProgressBar<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    saveTargets<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    savePredictions<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    saveManifolds<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    verbosity <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.8386114885852475</code></pre>
+<pre><code>Num threads used is 8
+
+CPU has 24 logical cores and 16 physical cores
+
+Starting the command!
+
+explore true full true shuffle false
+
+numUsable 83912
+
+Waiting for 1 results to come back
+</code></pre>
 </div>
-<div class="cell-output cell-output-display">
-<p><img src="core-logic-house-price-prediction-python_files/figure-html/cell-19-output-2.png" width="587" height="429"></p>
+<div class="cell-output cell-output-stdout">
+<pre><code>Finished successfully!
+Number of non-missing stats: 1
+Summary of predictions
+   E  library  theta       rho       mae
+0  2    83912    1.0  0.838611  0.862499
+Number of neighbours (k) is set to between  1  and  3</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># yearAgo = res["Mps"][0][:,0]</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># preds = pd.DataFrame({"targets": res["targets"].flatten(), "baseline-predictions": yearAgo})</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># preds = preds.dropna()</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># print(np.corrcoef(preds["targets"], preds["baseline-predictions"])[0,1])</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># preds.plot.scatter("targets", "baseline-predictions");</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> pd.DataFrame({<span class="st">"targets"</span>: res[<span class="st">"targets"</span>].flatten(), <span class="st">"predictions"</span>: res[<span class="st">"predictions"</span>].flatten()})</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> preds.dropna()</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.corrcoef(preds[<span class="st">"targets"</span>], preds[<span class="st">"predictions"</span>])[<span class="dv">0</span>,<span class="dv">1</span>])</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>preds.plot.scatter(<span class="st">"targets"</span>, <span class="st">"predictions"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.8386114885852473</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="core-logic-house-price-prediction-python_files/figure-html/cell-20-output-2.png" width="587" height="429"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>yearAgo <span class="op">=</span> res[<span class="st">"Ms"</span>][<span class="dv">0</span>][:,<span class="dv">0</span>]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> res[<span class="st">"targets"</span>].flatten()</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> targets[<span class="op">~</span>np.isnan(targets)]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> pd.DataFrame({<span class="st">"targets"</span>: targets, <span class="st">"baseline-predictions"</span>: yearAgo})</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> preds.dropna()</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.corrcoef(preds[<span class="st">"targets"</span>], preds[<span class="st">"baseline-predictions"</span>])[<span class="dv">0</span>,<span class="dv">1</span>])</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>preds.plot.scatter(<span class="st">"targets"</span>, <span class="st">"baseline-predictions"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.5977324101870374</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="core-logic-house-price-prediction-python_files/figure-html/cell-21-output-2.png" width="587" height="429"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> edm(t, x, panel <span class="op">=</span> panel,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    panelWeight <span class="op">=</span> <span class="bu">float</span>(<span class="st">"inf"</span>), p <span class="op">=</span> <span class="dv">5</span> <span class="op">*</span> <span class="dv">12</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    predictWithPast <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    numThreads <span class="op">=</span> NUM_THREADS,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    algorithm<span class="op">=</span><span class="st">"smap"</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    full <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    showProgressBar<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># saveTargets=True,</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># savePredictions=True,</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># saveManifolds=True,</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    verbosity <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"summary"</span> <span class="kw">in</span> res.keys():</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(res[<span class="st">"summary"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Num threads used is 8
+
+CPU has 24 logical cores and 16 physical cores
+
+Starting the command!
+
+explore true full true shuffle false
+
+numUsable 83912
+
+Waiting for 1 results to come back
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Finished successfully!
+Number of non-missing stats: 1
+Summary of predictions
+   E  library  theta       rho       mae
+0  2    83912    0.1  0.015454  7.557144
+Number of neighbours (k) is set to between  1  and  4
+   E  library  theta       rho       mae
+0  2    83912    0.1  0.015454  7.557144</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> edm(t, x, panel <span class="op">=</span> panel,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    panelWeight <span class="op">=</span> <span class="bu">float</span>(<span class="st">"inf"</span>), p <span class="op">=</span> <span class="dv">5</span> <span class="op">*</span> <span class="dv">12</span>,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> <span class="fl">0.0001</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    predictWithPast <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    numThreads <span class="op">=</span> NUM_THREADS,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    algorithm<span class="op">=</span><span class="st">"smap"</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    full <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    showProgressBar<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    saveTargets<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    savePredictions<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    saveManifolds<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    verbosity <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Num threads used is 8
+
+CPU has 24 logical cores and 16 physical cores
+
+Starting the command!
+
+explore true full true shuffle false
+
+numUsable 83912
+
+Waiting for 1 results to come back
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Finished successfully!
+Number of non-missing stats: 1
+Summary of predictions
+   E  library   theta       rho       mae
+0  2    83912  0.0001  0.015452  7.557442
+Number of neighbours (k) is set to between  1  and  4</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> pd.DataFrame({<span class="st">"targets"</span>: res[<span class="st">"targets"</span>].flatten(), <span class="st">"predictions"</span>: res[<span class="st">"predictions"</span>].flatten()})</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> preds.dropna()</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.corrcoef(preds[<span class="st">"targets"</span>], preds[<span class="st">"predictions"</span>])[<span class="dv">0</span>,<span class="dv">1</span>])</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>preds.plot.scatter(<span class="st">"targets"</span>, <span class="st">"predictions"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.015451999078238165</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="core-logic-house-price-prediction-python_files/figure-html/cell-24-output-2.png" width="613" height="434"></p>
+</div>
 </div>
 
 </main>

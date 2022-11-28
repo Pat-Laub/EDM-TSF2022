@@ -2,7 +2,8 @@
 title: Empirical Dynamic Modelling
 subtitle: Automatic Causal Analysis and Forecasting<br>TSF 2022
 author: Dr Patrick Laub
-date: today
+date: 2 December 2022
+date-format: long
 format:
   revealjs:
     theme: [serif, custom.scss]
@@ -27,10 +28,12 @@ execute:
 
 ## Plan
 
-1. Taken's Theorem: A magic trick
-2. Demos
+1. Introduction
+2. A magic trick (Taken's theorem)
+3. Examples
 	1. Causal inference
 	2. Prediction
+4. Software packages
 
 ## Taken's Theorem
 
@@ -90,3 +93,12 @@ University of NSW
 import fastEDM
 dir(fastEDM)
 ```
+
+## Package features
+
+- Fast, optimised multithreaded C++ code
+- Easy to use automated analysis
+- Handles panel data
+- Handles irregularly sampled time series / missing data
+- Highly "vectorised" (7 for loops deep)
+- GPU acceleration
