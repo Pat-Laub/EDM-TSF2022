@@ -409,7 +409,7 @@ Dr Patrick Laub
 <h2>Plan</h2>
 <ol type="1">
 <li>Introduction</li>
-<li>A magic trick (Taken’s theorem)</li>
+<li>🪄A magic trick🪄 (Taken’s theorem)</li>
 <li>Examples
 <ol type="1">
 <li>Causal inference</li>
@@ -418,32 +418,17 @@ Dr Patrick Laub
 <li>Software packages</li>
 </ol>
 </section>
-<section id="takens-theorem" class="slide level2">
-<h2>Taken’s Theorem</h2>
-</section>
-<section id="key-idea" class="slide level2">
-<h2>Key idea</h2>
-<p>If <span class="math inline">\(x\)</span> causes <span class="math inline">\(y\)</span>, then information about <span class="math inline">\(x\)</span> is somehow embedded in <span class="math inline">\(y\)</span>.</p>
-<p>By observing <span class="math inline">\(y\)</span>, we should be able to (roughly) forecast <span class="math inline">\(x\)</span>.</p>
-<p>By observing more of <span class="math inline">\(y\)</span> (more “training data”), do our forecasts of <span class="math inline">\(x\)</span> become more accurate?</p>
-</section>
 <section id="about-me" class="slide level2">
 <h2>About me</h2>
 <ul>
 <li>Uni Melbourne</li>
 </ul>
 </section>
-<section id="fish-brains" class="slide level2">
-<h2>Fish brains</h2>
-<p>Keichi work</p>
-</section>
-<section id="stata-package" class="slide level2 smaller">
-<h2>Stata package</h2>
-<br>
+<section id="section" class="slide level2 smaller">
+<h2></h2>
 <div style="border: 3px dashed #555">
 <img src="stata-journal-paper-title.png">
 </div>
-<p><br></p>
 <div class="columns">
 <div class="column">
 <p>Jinjing Li<br> University of Canberra</p>
@@ -453,6 +438,69 @@ Dr Patrick Laub
 <p>Patrick J. Laub<br> University of NSW</p>
 </div>
 </div>
+<p><br></p>
+<div class="callout callout-note callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Acknowledgments</strong></p>
+</div>
+<div class="callout-content">
+<p>Discovery Project DP200100219 and Future Fellowship FT140100629.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="stata-package" class="slide level2">
+<h2>Stata package</h2>
+<iframe src="https://edm-developers.github.io/EDM/" width="100%" height="600" style="border:none;">
+</iframe>
+</section>
+<section id="linear-dynamics" class="slide level2">
+<h2>Linear dynamics</h2>
+<blockquote>
+<p>If a dynamical model is linear, the system can be written as follows:</p>
+</blockquote>
+<p><span class="math display">\[ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} \]</span></p>
+<blockquote>
+<p>where <span class="math inline">\(\mathbf{A}\)</span> is a matrix of coefficients which does not depend on <span class="math inline">\(\mathbf{x}\)</span>. Note that the trajectories <span class="math inline">\(x_i(t)\)</span> will not typically be linear with respect to time.</p>
+</blockquote>
+<div class="footer">
+<p>Source: Munch et al.&nbsp;(2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.</p>
+</div>
+</section>
+<section id="nonlinear-dynamics" class="slide level2">
+<h2>Nonlinear dynamics</h2>
+<blockquote>
+<p>Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals.</p>
+</blockquote>
+<div class="footer">
+<p>Source: Stanisław Ulam</p>
+</div>
+</section>
+<section id="takens-theorem" class="slide level2">
+<h2>Taken’s Theorem</h2>
+<blockquote>
+<p>Takens’ theorem is a deep mathematical result with far-reaching implications. Unfortunately, to really understand it, it requires a background in topology.</p>
+</blockquote>
+<p><br></p>
+<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem#Simplified,_slightly_inaccurate_version" width="100%" height="300" style="border:none;">
+</iframe>
+<div class="footer">
+<p>Source: Munch et al.&nbsp;(2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.</p>
+</div>
+</section>
+<section id="key-idea" class="slide level2">
+<h2>Key idea</h2>
+<p>If <span class="math inline">\(x\)</span> causes <span class="math inline">\(y\)</span>, then information about <span class="math inline">\(x\)</span> is somehow embedded in <span class="math inline">\(y\)</span>.</p>
+<p>By observing <span class="math inline">\(y\)</span>, we should be able to (roughly) forecast <span class="math inline">\(x\)</span>.</p>
+<p>By observing more of <span class="math inline">\(y\)</span> (more “training data”), do our forecasts of <span class="math inline">\(x\)</span> become more accurate?</p>
+</section>
+<section id="fish-brains" class="slide level2">
+<h2>Fish brains</h2>
+<p>Keichi work</p>
 </section>
 <section id="stata-package-1" class="slide level2">
 <h2>Stata package</h2>
@@ -466,23 +514,9 @@ Dr Patrick Laub
 </section>
 <section id="sydney-house-price-forecasting" class="slide level2">
 <h2>Sydney house price forecasting</h2>
-<div class="cell" data-execution_count="1">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> fastEDM</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="bu">dir</span>(fastEDM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>['__builtins__',
- '__cached__',
- '__doc__',
- '__file__',
- '__loader__',
- '__name__',
- '__package__',
- '__path__',
- '__spec__',
- '_fastEDM',
- 'create_manifold',
- 'edm']</code></pre>
-</div>
 </div>
 </section>
 <section id="package-features" class="slide level2">

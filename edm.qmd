@@ -29,35 +29,19 @@ execute:
 ## Plan
 
 1. Introduction
-2. A magic trick (Taken's theorem)
+2. 🪄A magic trick🪄 (Taken's theorem)
 3. Examples
 	1. Causal inference
 	2. Prediction
 4. Software packages
 
-## Taken's Theorem
-
-## Key idea
-
-If $x$ causes $y$, then information about $x$ is somehow embedded in $y$.
-
-By observing $y$, we should be able to (roughly) forecast $x$.
-
-By observing more of $y$ (more "training data"), do our forecasts of $x$ become more accurate?
-
 ## About me
 
 - Uni Melbourne
 
-## Fish brains
+## {.smaller}
 
-Keichi work
-
-## Stata package {.smaller}
-
-<br>
 <div style="border: 3px dashed #555"><img src="stata-journal-paper-title.png" /></div>
-<br>
 
 ::: columns
 ::: column
@@ -75,6 +59,73 @@ Patrick J. Laub<br>
 University of NSW
 :::
 :::
+
+<br>
+
+::: callout-note
+##  Acknowledgments
+
+Discovery Project DP200100219 and Future Fellowship FT140100629.
+:::
+
+## Stata package
+
+<iframe src="https://edm-developers.github.io/EDM/" width="100%" height="600" style="border:none;">
+</iframe>
+
+## Linear dynamics
+
+> If a dynamical model is linear, the system can be written as follows:
+
+$$ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} $$
+
+> where $\mathbf{A}$ is a matrix of coefficients which does not depend on $\mathbf{x}$.
+> Note that the trajectories $x_i(t)$ will not typically be linear with respect to time.
+
+::: footer
+Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and
+empirical dynamic modelling, ICES Journal of Marine Science.
+:::
+
+## Nonlinear dynamics
+
+
+> Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals.
+
+::: footer
+Source: Stanisław Ulam
+:::
+
+## Taken's Theorem
+
+> Takens' theorem is a deep mathematical result with far-reaching implications.
+> Unfortunately, to really understand it, it requires a background in topology.
+
+<br>
+
+<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem#Simplified,_slightly_inaccurate_version" width="100%" height="300" style="border:none;">
+</iframe>
+
+::: footer
+Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and
+empirical dynamic modelling, ICES Journal of Marine Science.
+:::
+
+
+
+## Key idea
+
+If $x$ causes $y$, then information about $x$ is somehow embedded in $y$.
+
+By observing $y$, we should be able to (roughly) forecast $x$.
+
+By observing more of $y$ (more "training data"), do our forecasts of $x$ become more accurate?
+
+
+
+## Fish brains
+
+Keichi work
 
 ## Stata package
 
