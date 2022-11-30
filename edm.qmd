@@ -34,16 +34,17 @@ execute:
 3. Automated analysis
 -->
 
-<!--
+# Introduction {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
+
 ## About me
 
-- Software engineer, mathematician (PhD)
+- Software engineer & mathematics (UQ)
+- PhD in computational applied probability (Aarhus)
 - Actuarial science post-doc (Lyon)
-- Research software engineer at University of Melbourne
+- Research software engineer (Uni Melbourne)
 - Actuarial science lecturer (UNSW)
--->
 
-# Introduction {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
+Cf. [https://pat-laub.github.io](https://pat-laub.github.io).
 
 ## Goal: automatic causal inference
 
@@ -86,7 +87,7 @@ Michael J. Zyphur<br>
 University of Queensland
 
 Patrick J. Laub<br>
-University of NSW
+UNSW
 :::
 :::
 
@@ -120,7 +121,7 @@ then we can say $y \Rightarrow x$, both $x, z \Rightarrow y$, and both $x, y \Ri
 
 <br>
 
-Say $\mathbf{x}_t = (x_t, y_t, z_t)$, then if
+Say $\mathbf{x}_t = (x_t, y_t, z_t)$, then if:
 
 ::: columns
 ::: column
@@ -140,6 +141,11 @@ we have a nonlinear system.
 :::
 
 > Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)
+
+::: footer
+We don't fit a model for $f$, non-parametrically use the data.
+Hence the name _empirical_ dynamic modelling. 
+:::
 
 ## Unobserved variables?
 
@@ -232,11 +238,11 @@ By observing $y$, we should be able to (roughly) forecast $x$.
 
 By observing more of $y$ (more "training data"), do our forecasts of $x$ become more accurate?
 
-# Software {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
-
 ## Fish brains
 
-<iframe width="100%" height="600" src="https://www.youtube.com/embed/5HtXYKKRA8g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/5HtXYKKRA8g?start=1311" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+# Software {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
 
 ## Stata package
 
@@ -248,7 +254,7 @@ By observing more of $y$ (more "training data"), do our forecasts of $x$ become 
 
 ## Python package
 
-<iframe src="https://www.github.com/EDM-Developers/fastEDM-python/" width="100%" height="600" style="border:none;"></iframe>
+<iframe src="https://edm-developers.github.io/fastEDM-python/" width="100%" height="600" style="border:none;"></iframe>
 
 <!--
 ## Sydney house price forecasting
