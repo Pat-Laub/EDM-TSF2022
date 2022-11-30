@@ -1,6 +1,6 @@
 ---
-title: Empirical Dynamic Modelling
-subtitle: Automatic Causal Analysis and Forecasting<br>TSF 2022
+title: Empirical Dynamic Modelling (EDM)
+subtitle: Automatic Causal Inference and Forecasting<br>TSF 2022
 author: Dr Patrick Laub
 date: 2 December 2022
 date-format: long
@@ -26,19 +26,48 @@ execute:
   echo: true
 ---
 
+<!--
 ## Plan
 
-1. Introduction
-2. 🪄A magic trick🪄 (Taken's theorem)
-3. Stata package
-4. Automated analysis
+1. 🪄A magic trick🪄 (Taken's theorem)
+2. Stata package
+3. Automated analysis
+-->
 
+<!--
 ## About me
 
 - Software engineer, mathematician (PhD)
 - Actuarial science post-doc (Lyon)
 - Research software engineer at University of Melbourne
 - Actuarial science lecturer (UNSW)
+-->
+
+# Introduction {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
+
+## Goal: automatic causal inference
+
+<br>
+
+``` r
+df <- read.csv("chicago.csv")
+head(df)
+#>   Time Temperature Crime
+#> 1    1       24.08  1605
+#> 2    2       19.04  1119
+#> 3    3       28.04  1127
+#> 4    4       30.02  1154
+#> 5    5       35.96  1251
+#> 6    6       33.08  1276
+
+library(fastEDM)
+
+crimeCCMCausesTemp <- easy_edm("Crime", "Temperature", data=df)
+#> ✖ No evidence of CCM causation from Crime to Temperature found.
+
+tempCCMCausesCrime <- easy_edm("Temperature", "Crime", data=df)
+#> ✔ Some evidence of CCM causation from Temperature to Crime found.
+```
 
 ## {.smaller}
 
@@ -69,12 +98,9 @@ University of NSW
 Discovery Project DP200100219 and Future Fellowship FT140100629.
 :::
 
-## Stata package
+## A different view of causality
 
-<iframe src="https://edm-developers.github.io/edm-stata/" width="100%" height="600" style="border:none;"></iframe>
-
-
-## A dynamical systems view of causality
+<br>
 
 Imagine $x_t$, $y_t$, $z_t$ are interesting time series...
 
@@ -90,46 +116,115 @@ $$
 
 then we can say $y \Rightarrow x$, both $x, z \Rightarrow y$, and both $x, y \Rightarrow z$.
 
-Now forget about those equations...
-
-## Linear dynamics
-
-> If a dynamical model is linear, the system can be written as follows:
-
-$$ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} $$
-
-> where $\mathbf{A}$ is a matrix of coefficients which does not depend on $\mathbf{x}$.
-> Note that the trajectories $x_i(t)$ will not typically be linear with respect to time.
-
-::: footer
-Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and
-empirical dynamic modelling, ICES Journal of Marine Science.
-:::
-
-## Nonlinear dynamics
-
-> Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals.
-
-::: footer
-Source: Stanisław Ulam
-:::
-
-## Taken's Theorem
-
-> Takens' theorem is a deep mathematical result with far-reaching implications.
-> Unfortunately, to really understand it, it requires a background in topology.
+## Linear/nonlinear dynamical systems
 
 <br>
 
-<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem#Simplified,_slightly_inaccurate_version" width="100%" height="300" style="border:none;"></iframe>
+Say $\mathbf{x}_t = (x_t, y_t, z_t)$, then if
+
+::: columns
+::: column
+
+$$ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} $$
+
+we have a linear system.
+
+:::
+::: column
+
+$$ \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) $$
+
+we have a nonlinear system.
+
+:::
+:::
+
+> Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)
+
+## Unobserved variables?
+
+Takens' theorem to the rescue, though...
+
+> Takens' theorem is a deep mathematical result with far-reaching implications.
+> Unfortunately, to really understand it, it requires a background in topology.
+> (Munch et al. 2020)
+
+<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem" width="100%" height="250" style="border:none;"></iframe>
 
 ::: footer
 Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and
 empirical dynamic modelling, ICES Journal of Marine Science.
 :::
 
+# EDM {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
 
 ## Key idea
+
+Use lags of the time series!
+
+Given $x_t$ time series, create $E$-length trajectories
+
+$$ \widetilde{\mathbf{x}}_t = (x_t, x_{t-1}, x_{t-2}, \dots, x_{t-(E-1)}) \in \mathbb{R}^{E} $$
+
+and targets
+
+$$ y_t = (x_{t+1}) .$$
+
+## Key idea {data-visibility="uncounted"}
+
+Use lags of the time series!
+
+Given $x_t$ time series, create $E$-length trajectories
+
+$$ \widetilde{\mathbf{x}}_t = (x_t, x_{t-\tau}, x_{t-2\tau}, \dots, x_{t-(E-1)\tau}) \in \mathbb{R}^{E} , t=1,2,\dots$$
+
+and targets
+
+$$ y_t = (x_{t+p}) , t=1,2,\dots .$$
+
+Parametrised by $\tau, p \in \mathbb{N}$.
+
+## Split the data
+
+<br>
+
+Say $\mathcal{L} = \{ \widetilde{\mathbf{x}}_1 , \widetilde{\mathbf{x}}_2 , \dots , \widetilde{\mathbf{x}}_{T/2} \}$
+is the _library_ ($\approx$ train) set.
+
+And $\mathcal{P} = \{ \widetilde{\mathbf{x}}_{T/2+1} , \dots , \widetilde{\mathbf{x}}_{T} \}$
+is the _prediction_ ($\approx$ test) set.
+
+<br>
+
+For point $\widetilde{\mathbf{x}}_{s} \in \mathcal{P}$, find $k$ nearest neighbours in $\mathcal{L}$.
+Say, e.g., $k=2$ and the neighbours are 
+
+$$\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)$$
+
+## Simplex predictions
+
+The neighbours are 
+
+$$\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)$$
+
+then predict
+
+$$\widehat{y}_s = w_1 y_3 + w_2 y_5 .$$ 
+
+
+## S-map predictions
+
+The neighbours are 
+
+$$\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)$$
+
+then build a local linear system
+
+$$y = \mathbf{A} \widetilde{\mathbf{x}} $$
+
+based on the neighbours, and predict using this local autoregressive style.
+
+## EDM key idea
 
 If $x$ causes $y$, then information about $x$ is somehow embedded in $y$.
 
@@ -137,10 +232,11 @@ By observing $y$, we should be able to (roughly) forecast $x$.
 
 By observing more of $y$ (more "training data"), do our forecasts of $x$ become more accurate?
 
+# Software {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
 
 ## Fish brains
 
-Keichi work
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/5HtXYKKRA8g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Stata package
 
@@ -154,12 +250,14 @@ Keichi work
 
 <iframe src="https://www.github.com/EDM-Developers/fastEDM-python/" width="100%" height="600" style="border:none;"></iframe>
 
+<!--
 ## Sydney house price forecasting
 
 ```{python}
 import fastEDM
 dir(fastEDM)
 ```
+-->
 
 ## Package features
 

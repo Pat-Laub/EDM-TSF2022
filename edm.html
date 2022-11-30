@@ -11,7 +11,7 @@
 
   <meta name="author" content="Dr Patrick Laub">
   <meta name="dcterms.date" content="2022-12-02">
-  <title>Empirical Dynamic Modelling</title>
+  <title>Empirical Dynamic Modelling (EDM)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -392,8 +392,8 @@
     <div class="slides">
 
 <section id="title-slide" data-background-image="unsw-yellow-shape.png" data-background-size="contain !important" class="quarto-title-block center">
-  <h1 class="title">Empirical Dynamic Modelling</h1>
-  <p class="subtitle">Automatic Causal Analysis and Forecasting<br>TSF 2022</p>
+  <h1 class="title">Empirical Dynamic Modelling (EDM)</h1>
+  <p class="subtitle">Automatic Causal Inference and Forecasting<br>TSF 2022</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -405,23 +405,31 @@ Dr Patrick Laub
 
   <p class="date">December 2, 2022</p>
 </section>
-<section id="plan" class="slide level2">
-<h2>Plan</h2>
-<ol type="1">
-<li>Introduction</li>
-<li>🪄A magic trick🪄 (Taken’s theorem)</li>
-<li>Stata package</li>
-<li>Automated analysis</li>
-</ol>
+<section>
+<section id="introduction" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
+<h1>Introduction</h1>
+
 </section>
-<section id="about-me" class="slide level2">
-<h2>About me</h2>
-<ul>
-<li>Software engineer, mathematician (PhD)</li>
-<li>Actuarial science post-doc (Lyon)</li>
-<li>Research software engineer at University of Melbourne</li>
-<li>Actuarial science lecturer (UNSW)</li>
-</ul>
+<section id="goal-automatic-causal-inference" class="slide level2">
+<h2>Goal: automatic causal inference</h2>
+<p><br></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"chicago.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">head</span>(df)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt;   Time Temperature Crime</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; 1    1       24.08  1605</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt; 2    2       19.04  1119</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; 3    3       28.04  1127</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; 4    4       30.02  1154</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; 5    5       35.96  1251</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; 6    6       33.08  1276</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="fu">library</span>(fastEDM)</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a>crimeCCMCausesTemp <span class="ot">&lt;-</span> <span class="fu">easy_edm</span>(<span class="st">"Crime"</span>, <span class="st">"Temperature"</span>, <span class="at">data=</span>df)</span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt; ✖ No evidence of CCM causation from Crime to Temperature found.</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a>tempCCMCausesCrime <span class="ot">&lt;-</span> <span class="fu">easy_edm</span>(<span class="st">"Temperature"</span>, <span class="st">"Crime"</span>, <span class="at">data=</span>df)</span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt; ✔ Some evidence of CCM causation from Temperature to Crime found.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="section" class="slide level2 smaller">
 <h2></h2>
@@ -452,13 +460,9 @@ Dr Patrick Laub
 </div>
 </div>
 </section>
-<section id="stata-package" class="slide level2">
-<h2>Stata package</h2>
-<iframe src="https://edm-developers.github.io/edm-stata/" width="100%" height="600" style="border:none;">
-</iframe>
-</section>
-<section id="a-dynamical-systems-view-of-causality" class="slide level2">
-<h2>A dynamical systems view of causality</h2>
+<section id="a-different-view-of-causality" class="slide level2">
+<h2>A different view of causality</h2>
+<p><br></p>
 <p>Imagine <span class="math inline">\(x_t\)</span>, <span class="math inline">\(y_t\)</span>, <span class="math inline">\(z_t\)</span> are interesting time series…</p>
 <p><em>If</em> the data is generated according to the nonlinear system:</p>
 <p><span class="math display">\[
@@ -469,53 +473,99 @@ Dr Patrick Laub
 \end{aligned}
 \]</span></p>
 <p>then we can say <span class="math inline">\(y \Rightarrow x\)</span>, both <span class="math inline">\(x, z \Rightarrow y\)</span>, and both <span class="math inline">\(x, y \Rightarrow z\)</span>.</p>
-<p>Now forget about those equations…</p>
 </section>
-<section id="linear-dynamics" class="slide level2">
-<h2>Linear dynamics</h2>
-<blockquote>
-<p>If a dynamical model is linear, the system can be written as follows:</p>
-</blockquote>
-<p><span class="math display">\[ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} \]</span></p>
-<blockquote>
-<p>where <span class="math inline">\(\mathbf{A}\)</span> is a matrix of coefficients which does not depend on <span class="math inline">\(\mathbf{x}\)</span>. Note that the trajectories <span class="math inline">\(x_i(t)\)</span> will not typically be linear with respect to time.</p>
-</blockquote>
-<div class="footer">
-<p>Source: Munch et al.&nbsp;(2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.</p>
-</div>
-</section>
-<section id="nonlinear-dynamics" class="slide level2">
-<h2>Nonlinear dynamics</h2>
-<blockquote>
-<p>Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals.</p>
-</blockquote>
-<div class="footer">
-<p>Source: Stanisław Ulam</p>
-</div>
-</section>
-<section id="takens-theorem" class="slide level2">
-<h2>Taken’s Theorem</h2>
-<blockquote>
-<p>Takens’ theorem is a deep mathematical result with far-reaching implications. Unfortunately, to really understand it, it requires a background in topology.</p>
-</blockquote>
+<section id="linearnonlinear-dynamical-systems" class="slide level2">
+<h2>Linear/nonlinear dynamical systems</h2>
 <p><br></p>
-<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem#Simplified,_slightly_inaccurate_version" width="100%" height="300" style="border:none;">
+<p>Say <span class="math inline">\(\mathbf{x}_t = (x_t, y_t, z_t)\)</span>, then if</p>
+<div class="columns">
+<div class="column">
+<p><span class="math display">\[ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} \]</span></p>
+<p>we have a linear system.</p>
+</div><div class="column">
+<p><span class="math display">\[ \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) \]</span></p>
+<p>we have a nonlinear system.</p>
+</div>
+</div>
+<blockquote>
+<p>Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)</p>
+</blockquote>
+</section>
+<section id="unobserved-variables" class="slide level2">
+<h2>Unobserved variables?</h2>
+<p>Takens’ theorem to the rescue, though…</p>
+<blockquote>
+<p>Takens’ theorem is a deep mathematical result with far-reaching implications. Unfortunately, to really understand it, it requires a background in topology. (Munch et al.&nbsp;2020)</p>
+</blockquote>
+<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem" width="100%" height="250" style="border:none;">
 </iframe>
 <div class="footer">
 <p>Source: Munch et al.&nbsp;(2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.</p>
 </div>
+</section></section>
+<section>
+<section id="edm" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
+<h1>EDM</h1>
+
 </section>
 <section id="key-idea" class="slide level2">
 <h2>Key idea</h2>
+<p>Use lags of the time series!</p>
+<p>Given <span class="math inline">\(x_t\)</span> time series, create <span class="math inline">\(E\)</span>-length trajectories</p>
+<p><span class="math display">\[ \widetilde{\mathbf{x}}_t = (x_t, x_{t-1}, x_{t-2}, \dots, x_{t-(E-1)}) \in \mathbb{R}^{E} \]</span></p>
+<p>and targets</p>
+<p><span class="math display">\[ y_t = (x_{t+1}) .\]</span></p>
+</section>
+<section id="key-idea-1" class="slide level2" data-visibility="uncounted">
+<h2>Key idea</h2>
+<p>Use lags of the time series!</p>
+<p>Given <span class="math inline">\(x_t\)</span> time series, create <span class="math inline">\(E\)</span>-length trajectories</p>
+<p><span class="math display">\[ \widetilde{\mathbf{x}}_t = (x_t, x_{t-\tau}, x_{t-2\tau}, \dots, x_{t-(E-1)\tau}) \in \mathbb{R}^{E} , t=1,2,\dots\]</span></p>
+<p>and targets</p>
+<p><span class="math display">\[ y_t = (x_{t+p}) , t=1,2,\dots .\]</span></p>
+<p>Parametrised by <span class="math inline">\(\tau, p \in \mathbb{N}\)</span>.</p>
+</section>
+<section id="split-the-data" class="slide level2">
+<h2>Split the data</h2>
+<p><br></p>
+<p>Say <span class="math inline">\(\mathcal{L} = \{ \widetilde{\mathbf{x}}_1 , \widetilde{\mathbf{x}}_2 , \dots , \widetilde{\mathbf{x}}_{T/2} \}\)</span> is the <em>library</em> (<span class="math inline">\(\approx\)</span> train) set.</p>
+<p>And <span class="math inline">\(\mathcal{P} = \{ \widetilde{\mathbf{x}}_{T/2+1} , \dots , \widetilde{\mathbf{x}}_{T} \}\)</span> is the <em>prediction</em> (<span class="math inline">\(\approx\)</span> test) set.</p>
+<p><br></p>
+<p>For point <span class="math inline">\(\widetilde{\mathbf{x}}_{s} \in \mathcal{P}\)</span>, find <span class="math inline">\(k\)</span> nearest neighbours in <span class="math inline">\(\mathcal{L}\)</span>. Say, e.g., <span class="math inline">\(k=2\)</span> and the neighbours are</p>
+<p><span class="math display">\[\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)\]</span></p>
+</section>
+<section id="simplex-predictions" class="slide level2">
+<h2>Simplex predictions</h2>
+<p>The neighbours are</p>
+<p><span class="math display">\[\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)\]</span></p>
+<p>then predict</p>
+<p><span class="math display">\[\widehat{y}_s = w_1 y_3 + w_2 y_5 .\]</span></p>
+</section>
+<section id="s-map-predictions" class="slide level2">
+<h2>S-map predictions</h2>
+<p>The neighbours are</p>
+<p><span class="math display">\[\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)\]</span></p>
+<p>then build a local linear system</p>
+<p><span class="math display">\[y = \mathbf{A} \widetilde{\mathbf{x}} \]</span></p>
+<p>based on the neighbours, and predict using this local autoregressive style.</p>
+</section>
+<section id="edm-key-idea" class="slide level2">
+<h2>EDM key idea</h2>
 <p>If <span class="math inline">\(x\)</span> causes <span class="math inline">\(y\)</span>, then information about <span class="math inline">\(x\)</span> is somehow embedded in <span class="math inline">\(y\)</span>.</p>
 <p>By observing <span class="math inline">\(y\)</span>, we should be able to (roughly) forecast <span class="math inline">\(x\)</span>.</p>
 <p>By observing more of <span class="math inline">\(y\)</span> (more “training data”), do our forecasts of <span class="math inline">\(x\)</span> become more accurate?</p>
+</section></section>
+<section>
+<section id="software" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
+<h1>Software</h1>
+
 </section>
 <section id="fish-brains" class="slide level2">
 <h2>Fish brains</h2>
-<p>Keichi work</p>
+<iframe width="100%" height="600" src="https://www.youtube.com/embed/5HtXYKKRA8g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
 </section>
-<section id="stata-package-1" class="slide level2">
+<section id="stata-package" class="slide level2">
 <h2>Stata package</h2>
 <iframe src="https://edm-developers.github.io/edm-stata/" width="100%" height="600" style="border:none;">
 </iframe>
@@ -529,27 +579,6 @@ Dr Patrick Laub
 <h2>Python package</h2>
 <iframe src="https://www.github.com/EDM-Developers/fastEDM-python/" width="100%" height="600" style="border:none;">
 </iframe>
-</section>
-<section id="sydney-house-price-forecasting" class="slide level2">
-<h2>Sydney house price forecasting</h2>
-<div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> fastEDM</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="bu">dir</span>(fastEDM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>['__builtins__',
- '__cached__',
- '__doc__',
- '__file__',
- '__loader__',
- '__name__',
- '__package__',
- '__path__',
- '__spec__',
- '_fastEDM',
- 'create_manifold',
- 'edm']</code></pre>
-</div>
-</div>
 </section>
 <section id="package-features" class="slide level2">
 <h2>Package features</h2>
@@ -566,7 +595,7 @@ Dr Patrick Laub
 <img src="unsw-logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
 <p>Patrick Laub, Time-Series and Forecasting Symposium, University of Sydney</p>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
