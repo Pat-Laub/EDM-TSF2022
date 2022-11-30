@@ -155,7 +155,7 @@ Takens' theorem to the rescue, though...
 > Unfortunately, to really understand it, it requires a background in topology.
 > (Munch et al. 2020)
 
-<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem" width="100%" height="250" style="border:none;"></iframe>
+<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem#Simplified,_slightly_inaccurate_version" width="100%" height="250" style="border:none;"></iframe>
 
 ::: footer
 Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.
@@ -294,7 +294,11 @@ This is the core idea behind __convergent cross mapping__.
 
 ## Python package
 
-<iframe src="https://edm-developers.github.io/fastEDM-python/" width="100%" height="600" style="border:none;"></iframe>
+<iframe src="https://edm-developers.github.io/fastEDM-python/" width="100%" height="400" style="border:none;"></iframe>
+
+::: {.callout-note}
+Thanks to Rishi Dhushiyandan for his hard work on `easy_edm`.
+:::
 
 <!--
 ## Sydney house price forecasting
