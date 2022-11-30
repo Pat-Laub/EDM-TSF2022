@@ -9,7 +9,7 @@ debugpy==1.6.3
 decorator==5.1.1
 entrypoints==0.4
 executing==1.2.0
-fastEDM==0.0.1
+fastEDM @ git+https://github.com/EDM-Developers/fastEDM-python
 fastjsonschema==2.16.2
 fonttools==4.38.0
 ipykernel==6.18.1
@@ -40,7 +40,6 @@ pyparsing==3.0.9
 pyrsistent==0.19.2
 python-dateutil==2.8.2
 pytz==2022.6
-pywin32==305
 pyzmq==24.0.1
 seaborn==0.12.1
 setuptools==65.5.1

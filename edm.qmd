@@ -30,14 +30,15 @@ execute:
 
 1. Introduction
 2. 🪄A magic trick🪄 (Taken's theorem)
-3. Examples
-	1. Causal inference
-	2. Prediction
-4. Software packages
+3. Stata package
+4. Automated analysis
 
 ## About me
 
-- Uni Melbourne
+- Software engineer, mathematician (PhD)
+- Actuarial science post-doc (Lyon)
+- Research software engineer at University of Melbourne
+- Actuarial science lecturer (UNSW)
 
 ## {.smaller}
 
@@ -70,8 +71,26 @@ Discovery Project DP200100219 and Future Fellowship FT140100629.
 
 ## Stata package
 
-<iframe src="https://edm-developers.github.io/EDM/" width="100%" height="600" style="border:none;">
-</iframe>
+<iframe src="https://edm-developers.github.io/edm-stata/" width="100%" height="600" style="border:none;"></iframe>
+
+
+## A dynamical systems view of causality
+
+Imagine $x_t$, $y_t$, $z_t$ are interesting time series...
+
+_If_ the data is generated according to the nonlinear system:
+
+$$
+\begin{aligned}
+  x_{t+1}  &= \sigma (y_t - x_t) \\
+  y_{t+1}  &= x_t (\rho - z_t) - y_t \\
+  z_{t+1}  &= x_t y_t - \beta z_t
+\end{aligned}
+$$
+
+then we can say $y \Rightarrow x$, both $x, z \Rightarrow y$, and both $x, y \Rightarrow z$.
+
+Now forget about those equations...
 
 ## Linear dynamics
 
@@ -89,7 +108,6 @@ empirical dynamic modelling, ICES Journal of Marine Science.
 
 ## Nonlinear dynamics
 
-
 > Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals.
 
 ::: footer
@@ -103,14 +121,12 @@ Source: Stanisław Ulam
 
 <br>
 
-<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem#Simplified,_slightly_inaccurate_version" width="100%" height="300" style="border:none;">
-</iframe>
+<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem#Simplified,_slightly_inaccurate_version" width="100%" height="300" style="border:none;"></iframe>
 
 ::: footer
 Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and
 empirical dynamic modelling, ICES Journal of Marine Science.
 :::
-
 
 
 ## Key idea
@@ -122,21 +138,21 @@ By observing $y$, we should be able to (roughly) forecast $x$.
 By observing more of $y$ (more "training data"), do our forecasts of $x$ become more accurate?
 
 
-
 ## Fish brains
 
 Keichi work
 
 ## Stata package
 
-<iframe src="https://edm-developers.github.io/EDM/" width="100%" height="600" style="border:none;">
-</iframe>
+<iframe src="https://edm-developers.github.io/edm-stata/" width="100%" height="600" style="border:none;"></iframe>
 
 ## R package
 
-<iframe src="https://edm-developers.github.io/fastEDM/" width="100%" height="600" style="border:none;">
-</iframe>
+<iframe src="https://edm-developers.github.io/fastEDM-r/" width="100%" height="600" style="border:none;"></iframe>
 
+## Python package
+
+<iframe src="https://www.github.com/EDM-Developers/fastEDM-python/" width="100%" height="600" style="border:none;"></iframe>
 
 ## Sydney house price forecasting
 
@@ -153,3 +169,5 @@ dir(fastEDM)
 - Handles irregularly sampled time series / missing data
 - Highly "vectorised" (7 for loops deep)
 - GPU acceleration
+
+- Well-engineered (3 OS, CI, count # LOC tessts)

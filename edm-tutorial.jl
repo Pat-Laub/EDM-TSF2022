@@ -26,35 +26,8 @@ begin
 	myscheme = ColorScheme([parse(Colorant, hexstr) for hexstr in ["#91CCCC", "#FF8FA9", "#CC91BC", "#3F9999", "#A5FFB8"]])	
 	theme(:default; palette = palette(myscheme))
 	
-	myscheme	
+	myscheme;
 end;
-
-# ╔═╡ 55322317-1745-46ad-a267-90c876a1cebe
-md"### A nonlinear view of causality"
-
-# ╔═╡ 298513e4-acd7-42a2-8c7f-9831cb050635
-md"""
-Imagine $x(t)$, $y(t)$, $z(t)$ are interesting time series...
-
-_If_ the data is generated according to the nonlinear system:
-"""
-
-# ╔═╡ 274d0320-51bf-4941-90ad-9cafd86a570a
-md"""
-```math
-\begin{aligned}
-\mathrm{d}x  &= \sigma (y-x) \\
-\mathrm{d}y  &= x (\rho-z) - y \\
-\mathrm{d}z  &= x y - \beta z
-\end{aligned}
-```
-"""
-
-# ╔═╡ 1db58b97-803f-4bb5-87f3-b625e2f8627e
-md"then we can say $y \Rightarrow x$, both $x,z \Rightarrow y $, and both $x, y \Rightarrow z$."
-
-# ╔═╡ 5ad58ad1-0b71-4519-b053-ad201eee11ed
-md"Now forget about those equations..."
 
 # ╔═╡ a6d92c62-feaf-4635-9181-48ea35f1e6c8
 md"##### Three univariate time series"
@@ -290,28 +263,6 @@ let
 	plot3d!([𝒟[n, 1], 𝒟Y[n, 1] + gap],
 		[𝒟[n, 2], 𝒟Y[n, 2]],
 		[𝒟[n, 3], 𝒟Y[n, 3] - gap],
-		c="black", legend=false)
-end
-
-# ╔═╡ 03b786fc-ce5c-46ad-a591-0784fafe2537
-md"""
-Time horizon:
-$(@bind byT Slider(0.00:0.005:1.0; default=1.0))
-Rotation:
-$(@bind byC1 Slider(0:90; default=45))
-$(@bind byC2 Slider(0:90; default=25))
-"""
-
-# ╔═╡ c7b61ee8-af15-49f5-97ac-f21fd48d9491
-let	
-	gap = 100
-	n = Int(ceil(byT * min(size(ts, 1), size(𝒟, 1))))
-	plot3d(ts[1:n,1], ts[1:n,2], ts[1:n,3], camera = (byC1, byC2), legend=false, xlabel="\$x\$", ylabel="\$y\$", zlabel="\$z\$", c=4)
-	plot3d!(𝒟[1:n, 1] .+ gap, 𝒟[1:n, 2], 𝒟[1:n, 3], c=3, camera = (byC1, byC2), legend=false)
-	
-	plot3d!([ts[n, 1], 𝒟[n, 1] + gap],
-		[ts[n, 2], 𝒟[n, 2]],
-		[ts[n, 3], 𝒟[n, 3]],
 		c="black", legend=false)
 end
 
@@ -1998,12 +1949,7 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╠═cefd76cb-8438-4e76-ac8b-c12c3926103f
-# ╟─55322317-1745-46ad-a267-90c876a1cebe
-# ╟─298513e4-acd7-42a2-8c7f-9831cb050635
-# ╟─274d0320-51bf-4941-90ad-9cafd86a570a
-# ╟─1db58b97-803f-4bb5-87f3-b625e2f8627e
-# ╟─5ad58ad1-0b71-4519-b053-ad201eee11ed
+# ╟─cefd76cb-8438-4e76-ac8b-c12c3926103f
 # ╟─a6d92c62-feaf-4635-9181-48ea35f1e6c8
 # ╟─88f88dfc-aa0e-4478-bd58-7bc3bd82aab9
 # ╟─a27780c7-877e-43e3-a8ce-be6596bf415b
@@ -2018,7 +1964,7 @@ version = "1.4.1+0"
 # ╟─37f3c72f-751d-4759-a38f-e10884fe870d
 # ╟─81f073d8-d82b-4bc3-8176-ef250a8b5c4f
 # ╟─cac1c010-446f-4335-b6ba-5b8be6ad3145
-# ╠═ecf4d3e9-a4c0-424d-a4f8-9e64fd68a080
+# ╟─ecf4d3e9-a4c0-424d-a4f8-9e64fd68a080
 # ╟─56609d81-1a22-4c3c-a1c4-d092ddc6831f
 # ╟─6f1257b0-cba6-4f57-878d-1de54b8dbc0e
 # ╟─3cd0e56b-bcb1-4332-91a8-7862156e3256
@@ -2036,7 +1982,5 @@ version = "1.4.1+0"
 # ╟─aa0ee4da-1107-4b50-aa2a-fe96bbf65603
 # ╟─3d79ed19-c109-49e1-bf0a-5d6e7e059740
 # ╟─d79e6bcb-93a5-4975-b9f7-112cf1e65af8
-# ╠═03b786fc-ce5c-46ad-a591-0784fafe2537
-# ╠═c7b61ee8-af15-49f5-97ac-f21fd48d9491
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

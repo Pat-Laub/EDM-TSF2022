@@ -410,18 +410,17 @@ Dr Patrick Laub
 <ol type="1">
 <li>Introduction</li>
 <li>🪄A magic trick🪄 (Taken’s theorem)</li>
-<li>Examples
-<ol type="1">
-<li>Causal inference</li>
-<li>Prediction</li>
-</ol></li>
-<li>Software packages</li>
+<li>Stata package</li>
+<li>Automated analysis</li>
 </ol>
 </section>
 <section id="about-me" class="slide level2">
 <h2>About me</h2>
 <ul>
-<li>Uni Melbourne</li>
+<li>Software engineer, mathematician (PhD)</li>
+<li>Actuarial science post-doc (Lyon)</li>
+<li>Research software engineer at University of Melbourne</li>
+<li>Actuarial science lecturer (UNSW)</li>
 </ul>
 </section>
 <section id="section" class="slide level2 smaller">
@@ -455,8 +454,22 @@ Dr Patrick Laub
 </section>
 <section id="stata-package" class="slide level2">
 <h2>Stata package</h2>
-<iframe src="https://edm-developers.github.io/EDM/" width="100%" height="600" style="border:none;">
+<iframe src="https://edm-developers.github.io/edm-stata/" width="100%" height="600" style="border:none;">
 </iframe>
+</section>
+<section id="a-dynamical-systems-view-of-causality" class="slide level2">
+<h2>A dynamical systems view of causality</h2>
+<p>Imagine <span class="math inline">\(x_t\)</span>, <span class="math inline">\(y_t\)</span>, <span class="math inline">\(z_t\)</span> are interesting time series…</p>
+<p><em>If</em> the data is generated according to the nonlinear system:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  x_{t+1}  &amp;= \sigma (y_t - x_t) \\
+  y_{t+1}  &amp;= x_t (\rho - z_t) - y_t \\
+  z_{t+1}  &amp;= x_t y_t - \beta z_t
+\end{aligned}
+\]</span></p>
+<p>then we can say <span class="math inline">\(y \Rightarrow x\)</span>, both <span class="math inline">\(x, z \Rightarrow y\)</span>, and both <span class="math inline">\(x, y \Rightarrow z\)</span>.</p>
+<p>Now forget about those equations…</p>
 </section>
 <section id="linear-dynamics" class="slide level2">
 <h2>Linear dynamics</h2>
@@ -504,30 +517,50 @@ Dr Patrick Laub
 </section>
 <section id="stata-package-1" class="slide level2">
 <h2>Stata package</h2>
-<iframe src="https://edm-developers.github.io/EDM/" width="100%" height="600" style="border:none;">
+<iframe src="https://edm-developers.github.io/edm-stata/" width="100%" height="600" style="border:none;">
 </iframe>
 </section>
 <section id="r-package" class="slide level2">
 <h2>R package</h2>
-<iframe src="https://edm-developers.github.io/fastEDM/" width="100%" height="600" style="border:none;">
+<iframe src="https://edm-developers.github.io/fastEDM-r/" width="100%" height="600" style="border:none;">
+</iframe>
+</section>
+<section id="python-package" class="slide level2">
+<h2>Python package</h2>
+<iframe src="https://www.github.com/EDM-Developers/fastEDM-python/" width="100%" height="600" style="border:none;">
 </iframe>
 </section>
 <section id="sydney-house-price-forecasting" class="slide level2">
 <h2>Sydney house price forecasting</h2>
-<div class="cell">
+<div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> fastEDM</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="bu">dir</span>(fastEDM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>['__builtins__',
+ '__cached__',
+ '__doc__',
+ '__file__',
+ '__loader__',
+ '__name__',
+ '__package__',
+ '__path__',
+ '__spec__',
+ '_fastEDM',
+ 'create_manifold',
+ 'edm']</code></pre>
+</div>
 </div>
 </section>
 <section id="package-features" class="slide level2">
 <h2>Package features</h2>
 <ul>
-<li>Fast, optimised multithreaded C++ code</li>
-<li>Easy to use automated analysis</li>
-<li>Handles panel data</li>
-<li>Handles irregularly sampled time series / missing data</li>
-<li>Highly “vectorised” (7 for loops deep)</li>
-<li>GPU acceleration</li>
+<li><p>Fast, optimised multithreaded C++ code</p></li>
+<li><p>Easy to use automated analysis</p></li>
+<li><p>Handles panel data</p></li>
+<li><p>Handles irregularly sampled time series / missing data</p></li>
+<li><p>Highly “vectorised” (7 for loops deep)</p></li>
+<li><p>GPU acceleration</p></li>
+<li><p>Well-engineered (3 OS, CI, count # LOC tessts)</p></li>
 </ul>
 
 <img src="unsw-logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
