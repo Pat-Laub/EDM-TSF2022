@@ -274,7 +274,9 @@ By observing $y_t$, we should be able to (roughly) forecast $x_t$.
 
 By observing more of $y_t$ (more "training data"), our forecasts of $x_t$ should be more accurate.
 
-This is the core idea behind __convergent cross mapping__.
+This is the core idea behind **convergent cross mapping**.
+
+_Example_: [Chicago crime and temperature](https://edm-developers.github.io/fastEDM-r/articles/chicago.html).
 
 <!--
 ## Fish brains
@@ -299,6 +301,25 @@ This is the core idea behind __convergent cross mapping__.
 ::: {.callout-note}
 Thanks to Rishi Dhushiyandan for his hard work on `easy_edm`.
 :::
+
+## Get involved!
+
+<br>
+
+🙂 Give it a try, feedback would be very welcome.
+
+<br>
+
+😊 If you have a $ for supporting an RA or a Stata license..
+
+<br>
+
+😍 If you're talented in
+
+- causal analysis, or
+- programming (Stata/Mata, R, Javascript, C++, Python)
+
+I/we will be very happy to have your help with this! 
 
 <!--
 ## Sydney house price forecasting
