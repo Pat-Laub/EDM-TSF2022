@@ -1,5 +1,5 @@
 ---
-title: Empirical Dynamic Modelling (EDM)
+title: Empirical Dynamic Modelling
 subtitle: Automatic Causal Inference and Forecasting<br>TSF 2022
 author: Dr Patrick Laub
 date: 2 December 2022
@@ -147,7 +147,7 @@ We don't fit a model for $f$, non-parametrically use the data.
 Hence the name _empirical_ dynamic modelling. 
 :::
 
-## Unobserved variables?
+## Noise / unobserved variables?
 
 Takens' theorem to the rescue, though...
 
@@ -158,31 +158,36 @@ Takens' theorem to the rescue, though...
 <iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem" width="100%" height="250" style="border:none;"></iframe>
 
 ::: footer
-Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and
-empirical dynamic modelling, ICES Journal of Marine Science.
+Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.
 :::
 
-# EDM {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
+# Empirical Dynamic Modelling (EDM) {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
 
-## Key idea
+## Create lagged embeddings
 
-Use lags of the time series!
+<br>
+<br>
 
-Given $x_t$ time series, create $E$-length trajectories
+Given $\{ x_t \}_{t\in\mathbb{N}}$ time series, create $E$-length trajectories
 
-$$ \widetilde{\mathbf{x}}_t = (x_t, x_{t-1}, x_{t-2}, \dots, x_{t-(E-1)}) \in \mathbb{R}^{E} $$
+$$ \overleftarrow{\mathbf{x}}_t = (x_t, x_{t-1}, x_{t-2}, \dots, x_{t-(E-1)}) \in \mathbb{R}^{E} $$
 
 and targets
 
 $$ y_t = (x_{t+1}) .$$
 
+::: {.callout-note}
+The $\overleftarrow{\mathbf{x}}_t$'s are called _points_ (on the shadow manifold).
+:::
+
+<!-- 
 ## Key idea {data-visibility="uncounted"}
 
 Use lags of the time series!
 
 Given $x_t$ time series, create $E$-length trajectories
 
-$$ \widetilde{\mathbf{x}}_t = (x_t, x_{t-\tau}, x_{t-2\tau}, \dots, x_{t-(E-1)\tau}) \in \mathbb{R}^{E} , t=1,2,\dots$$
+$$ \overleftarrow{\mathbf{x}}_t = (x_t, x_{t-\tau}, x_{t-2\tau}, \dots, x_{t-(E-1)\tau}) \in \mathbb{R}^{E} , t=1,2,\dots$$
 
 and targets
 
@@ -190,57 +195,92 @@ $$ y_t = (x_{t+p}) , t=1,2,\dots .$$
 
 Parametrised by $\tau, p \in \mathbb{N}$.
 
+-->
+
 ## Split the data
 
-<br>
-
-Say $\mathcal{L} = \{ \widetilde{\mathbf{x}}_1 , \widetilde{\mathbf{x}}_2 , \dots , \widetilde{\mathbf{x}}_{T/2} \}$
+Say $\mathcal{L} = \{ \overleftarrow{\mathbf{x}}_1 , \overleftarrow{\mathbf{x}}_2 , \dots , \overleftarrow{\mathbf{x}}_{T/2} \}$
 is the _library_ ($\approx$ train) set.
 
-And $\mathcal{P} = \{ \widetilde{\mathbf{x}}_{T/2+1} , \dots , \widetilde{\mathbf{x}}_{T} \}$
+And $\mathcal{P} = \{ \overleftarrow{\mathbf{x}}_{T/2+1} , \dots , \overleftarrow{\mathbf{x}}_{T} \}$
 is the _prediction_ ($\approx$ test) set.
 
 <br>
 
-For point $\widetilde{\mathbf{x}}_{s} \in \mathcal{P}$, find $k$ nearest neighbours in $\mathcal{L}$.
+For point $\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}$, find $k$ nearest neighbours in $\mathcal{L}$.
 Say, e.g., $k=2$ and the neighbours are 
 
-$$\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)$$
+$$\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)$$
 
-## Simplex predictions
+::: {.callout-note}
+Calculating the distances from $\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}$ to every point in $\mathcal{L}$ and finding nearest neighbours can be computationally demanding.
+:::
 
-The neighbours are 
+## Non-parametric prediction
 
-$$\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)$$
+::: columns
+::: column
 
-then predict
+Given $\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}$, has the neighbours
+
+:::
+::: column
+
+$$\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)$$
+
+:::
+:::
+
+::: columns
+::: column
+
+**Simplex method**:
+
+Predict
+
+::: 
+::: column
 
 $$\widehat{y}_s = w_1 y_3 + w_2 y_5 .$$ 
 
+::: 
+::: 
 
-## S-map predictions
+<br>
 
-The neighbours are 
+::: columns
+::: column
 
-$$\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)$$
+**S-map method**:
 
-then build a local linear system
+Build a local linear system
+and predict using a local autoregressive style.
 
-$$y = \mathbf{A} \widetilde{\mathbf{x}} $$
+::: 
+::: column
 
-based on the neighbours, and predict using this local autoregressive style.
+$$\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s$$
 
-## EDM key idea
+::: 
+::: 
 
-If $x$ causes $y$, then information about $x$ is somehow embedded in $y$.
+## Causation
 
-By observing $y$, we should be able to (roughly) forecast $x$.
+<br>
 
-By observing more of $y$ (more "training data"), do our forecasts of $x$ become more accurate?
+If $x_t$ causes $y_t$, then information about $x_t$ is somehow embedded in $y_t$.
 
+By observing $y_t$, we should be able to (roughly) forecast $x_t$.
+
+By observing more of $y_t$ (more "training data"), our forecasts of $x_t$ should be more accurate.
+
+This is the core idea behind __convergent cross mapping__.
+
+<!--
 ## Fish brains
 
 <iframe width="100%" height="600" src="https://www.youtube.com/embed/5HtXYKKRA8g?start=1311" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+-->
 
 # Software {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
 
@@ -265,6 +305,7 @@ dir(fastEDM)
 ```
 -->
 
+<!--
 ## Package features
 
 - Fast, optimised multithreaded C++ code
@@ -275,3 +316,4 @@ dir(fastEDM)
 - GPU acceleration
 
 - Well-engineered (3 OS, CI, count # LOC tessts)
+-->

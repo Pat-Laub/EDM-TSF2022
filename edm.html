@@ -11,7 +11,7 @@
 
   <meta name="author" content="Dr Patrick Laub">
   <meta name="dcterms.date" content="2022-12-02">
-  <title>Empirical Dynamic Modelling (EDM)</title>
+  <title>Empirical Dynamic Modelling</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -392,7 +392,7 @@
     <div class="slides">
 
 <section id="title-slide" data-background-image="unsw-yellow-shape.png" data-background-size="contain !important" class="quarto-title-block center">
-  <h1 class="title">Empirical Dynamic Modelling (EDM)</h1>
+  <h1 class="title">Empirical Dynamic Modelling</h1>
   <p class="subtitle">Automatic Causal Inference and Forecasting<br>TSF 2022</p>
 
 <div class="quarto-title-authors">
@@ -505,8 +505,8 @@ Dr Patrick Laub
 <p>We don’t fit a model for <span class="math inline">\(f\)</span>, non-parametrically use the data. Hence the name <em>empirical</em> dynamic modelling.</p>
 </div>
 </section>
-<section id="unobserved-variables" class="slide level2">
-<h2>Unobserved variables?</h2>
+<section id="noise-unobserved-variables" class="slide level2">
+<h2>Noise / unobserved variables?</h2>
 <p>Takens’ theorem to the rescue, though…</p>
 <blockquote>
 <p>Takens’ theorem is a deep mathematical result with far-reaching implications. Unfortunately, to really understand it, it requires a background in topology. (Munch et al.&nbsp;2020)</p>
@@ -518,61 +518,86 @@ Dr Patrick Laub
 </div>
 </section></section>
 <section>
-<section id="edm" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
-<h1>EDM</h1>
+<section id="empirical-dynamic-modelling-edm" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
+<h1>Empirical Dynamic Modelling (EDM)</h1>
 
 </section>
-<section id="key-idea" class="slide level2">
-<h2>Key idea</h2>
-<p>Use lags of the time series!</p>
-<p>Given <span class="math inline">\(x_t\)</span> time series, create <span class="math inline">\(E\)</span>-length trajectories</p>
-<p><span class="math display">\[ \widetilde{\mathbf{x}}_t = (x_t, x_{t-1}, x_{t-2}, \dots, x_{t-(E-1)}) \in \mathbb{R}^{E} \]</span></p>
+<section id="create-lagged-embeddings" class="slide level2">
+<h2>Create lagged embeddings</h2>
+<p><br> <br></p>
+<p>Given <span class="math inline">\(\{ x_t \}_{t\in\mathbb{N}}\)</span> time series, create <span class="math inline">\(E\)</span>-length trajectories</p>
+<p><span class="math display">\[ \overleftarrow{\mathbf{x}}_t = (x_t, x_{t-1}, x_{t-2}, \dots, x_{t-(E-1)}) \in \mathbb{R}^{E} \]</span></p>
 <p>and targets</p>
 <p><span class="math display">\[ y_t = (x_{t+1}) .\]</span></p>
-</section>
-<section id="key-idea-1" class="slide level2" data-visibility="uncounted">
-<h2>Key idea</h2>
-<p>Use lags of the time series!</p>
-<p>Given <span class="math inline">\(x_t\)</span> time series, create <span class="math inline">\(E\)</span>-length trajectories</p>
-<p><span class="math display">\[ \widetilde{\mathbf{x}}_t = (x_t, x_{t-\tau}, x_{t-2\tau}, \dots, x_{t-(E-1)\tau}) \in \mathbb{R}^{E} , t=1,2,\dots\]</span></p>
-<p>and targets</p>
-<p><span class="math display">\[ y_t = (x_{t+p}) , t=1,2,\dots .\]</span></p>
-<p>Parametrised by <span class="math inline">\(\tau, p \in \mathbb{N}\)</span>.</p>
+<div class="callout callout-note callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>The <span class="math inline">\(\overleftarrow{\mathbf{x}}_t\)</span>’s are called <em>points</em> (on the shadow manifold).</p>
+</div>
+</div>
+</div>
 </section>
 <section id="split-the-data" class="slide level2">
 <h2>Split the data</h2>
+<p>Say <span class="math inline">\(\mathcal{L} = \{ \overleftarrow{\mathbf{x}}_1 , \overleftarrow{\mathbf{x}}_2 , \dots , \overleftarrow{\mathbf{x}}_{T/2} \}\)</span> is the <em>library</em> (<span class="math inline">\(\approx\)</span> train) set.</p>
+<p>And <span class="math inline">\(\mathcal{P} = \{ \overleftarrow{\mathbf{x}}_{T/2+1} , \dots , \overleftarrow{\mathbf{x}}_{T} \}\)</span> is the <em>prediction</em> (<span class="math inline">\(\approx\)</span> test) set.</p>
 <p><br></p>
-<p>Say <span class="math inline">\(\mathcal{L} = \{ \widetilde{\mathbf{x}}_1 , \widetilde{\mathbf{x}}_2 , \dots , \widetilde{\mathbf{x}}_{T/2} \}\)</span> is the <em>library</em> (<span class="math inline">\(\approx\)</span> train) set.</p>
-<p>And <span class="math inline">\(\mathcal{P} = \{ \widetilde{\mathbf{x}}_{T/2+1} , \dots , \widetilde{\mathbf{x}}_{T} \}\)</span> is the <em>prediction</em> (<span class="math inline">\(\approx\)</span> test) set.</p>
-<p><br></p>
-<p>For point <span class="math inline">\(\widetilde{\mathbf{x}}_{s} \in \mathcal{P}\)</span>, find <span class="math inline">\(k\)</span> nearest neighbours in <span class="math inline">\(\mathcal{L}\)</span>. Say, e.g., <span class="math inline">\(k=2\)</span> and the neighbours are</p>
-<p><span class="math display">\[\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)\]</span></p>
+<p>For point <span class="math inline">\(\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}\)</span>, find <span class="math inline">\(k\)</span> nearest neighbours in <span class="math inline">\(\mathcal{L}\)</span>. Say, e.g., <span class="math inline">\(k=2\)</span> and the neighbours are</p>
+<p><span class="math display">\[\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)\]</span></p>
+<div class="callout callout-note callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Calculating the distances from <span class="math inline">\(\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}\)</span> to every point in <span class="math inline">\(\mathcal{L}\)</span> and finding nearest neighbours can be computationally demanding.</p>
+</div>
+</div>
+</div>
 </section>
-<section id="simplex-predictions" class="slide level2">
-<h2>Simplex predictions</h2>
-<p>The neighbours are</p>
-<p><span class="math display">\[\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)\]</span></p>
-<p>then predict</p>
+<section id="non-parametric-prediction" class="slide level2">
+<h2>Non-parametric prediction</h2>
+<div class="columns">
+<div class="column">
+<p>Given <span class="math inline">\(\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}\)</span>, has the neighbours</p>
+</div><div class="column">
+<p><span class="math display">\[\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)\]</span></p>
+</div>
+</div>
+<div class="columns">
+<div class="column">
+<p><strong>Simplex method</strong>:</p>
+<p>Predict</p>
+</div><div class="column">
 <p><span class="math display">\[\widehat{y}_s = w_1 y_3 + w_2 y_5 .\]</span></p>
+</div>
+</div>
+<p><br></p>
+<div class="columns">
+<div class="column">
+<p><strong>S-map method</strong>:</p>
+<p>Build a local linear system and predict using a local autoregressive style.</p>
+</div><div class="column">
+<p><span class="math display">\[\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s\]</span></p>
+</div>
+</div>
 </section>
-<section id="s-map-predictions" class="slide level2">
-<h2>S-map predictions</h2>
-<p>The neighbours are</p>
-<p><span class="math display">\[\mathcal{NN}_k = \bigl( \widetilde{\mathbf{x}}_{3}, \widetilde{\mathbf{x}}_{5} \bigr)\]</span></p>
-<p>then build a local linear system</p>
-<p><span class="math display">\[y = \mathbf{A} \widetilde{\mathbf{x}} \]</span></p>
-<p>based on the neighbours, and predict using this local autoregressive style.</p>
-</section>
-<section id="edm-key-idea" class="slide level2">
-<h2>EDM key idea</h2>
-<p>If <span class="math inline">\(x\)</span> causes <span class="math inline">\(y\)</span>, then information about <span class="math inline">\(x\)</span> is somehow embedded in <span class="math inline">\(y\)</span>.</p>
-<p>By observing <span class="math inline">\(y\)</span>, we should be able to (roughly) forecast <span class="math inline">\(x\)</span>.</p>
-<p>By observing more of <span class="math inline">\(y\)</span> (more “training data”), do our forecasts of <span class="math inline">\(x\)</span> become more accurate?</p>
-</section>
-<section id="fish-brains" class="slide level2">
-<h2>Fish brains</h2>
-<iframe width="100%" height="600" src="https://www.youtube.com/embed/5HtXYKKRA8g?start=1311" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-</iframe>
+<section id="causation" class="slide level2">
+<h2>Causation</h2>
+<p><br></p>
+<p>If <span class="math inline">\(x_t\)</span> causes <span class="math inline">\(y_t\)</span>, then information about <span class="math inline">\(x_t\)</span> is somehow embedded in <span class="math inline">\(y_t\)</span>.</p>
+<p>By observing <span class="math inline">\(y_t\)</span>, we should be able to (roughly) forecast <span class="math inline">\(x_t\)</span>.</p>
+<p>By observing more of <span class="math inline">\(y_t\)</span> (more “training data”), our forecasts of <span class="math inline">\(x_t\)</span> should be more accurate.</p>
+<p>This is the core idea behind <strong>convergent cross mapping</strong>.</p>
 </section></section>
 <section>
 <section id="software" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
@@ -593,18 +618,6 @@ Dr Patrick Laub
 <h2>Python package</h2>
 <iframe src="https://edm-developers.github.io/fastEDM-python/" width="100%" height="600" style="border:none;">
 </iframe>
-</section>
-<section id="package-features" class="slide level2">
-<h2>Package features</h2>
-<ul>
-<li><p>Fast, optimised multithreaded C++ code</p></li>
-<li><p>Easy to use automated analysis</p></li>
-<li><p>Handles panel data</p></li>
-<li><p>Handles irregularly sampled time series / missing data</p></li>
-<li><p>Highly “vectorised” (7 for loops deep)</p></li>
-<li><p>GPU acceleration</p></li>
-<li><p>Well-engineered (3 OS, CI, count # LOC tessts)</p></li>
-</ul>
 
 <img src="unsw-logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
 <p>Patrick Laub, Time-Series and Forecasting Symposium, University of Sydney</p>
