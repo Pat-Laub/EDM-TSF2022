@@ -32,6 +32,12 @@ end;
 # ╔═╡ a6d92c62-feaf-4635-9181-48ea35f1e6c8
 md"##### Three univariate time series"
 
+# ╔═╡ ce1abf76-dc20-4ca7-81c2-6024cdd7427a
+md"""
+Line width:
+$(@bind lw Slider(0.00:0.05:5.0; default=1.5))
+"""
+
 # ╔═╡ 3aac8f34-ee88-4d3e-8ef9-f3fe004833c0
 md"""
 Time horizon:
@@ -53,9 +59,9 @@ end;
 # ╔═╡ a27780c7-877e-43e3-a8ce-be6596bf415b
 let
 	n = Int(ceil(T1 * size(ts, 1)))
-	Plots.plot(x[1:n], label="x", c=2)
-	plot!(y[1:n], label="y", c=1)
-	plot!(z[1:n], label="z", c=3)
+	Plots.plot(x[1:n], label="x", c=2, linewidth=lw)
+	plot!(y[1:n], label="y", c=1, linewidth=lw)
+	plot!(z[1:n], label="z", c=3, linewidth=lw)
 end
 
 # ╔═╡ 239044ab-f35b-4ade-a9a5-4d9899621d4f
@@ -73,7 +79,7 @@ $(@bind bc2 Slider(0:90; default=25))
 # ╔═╡ 9f9d6b66-804f-4cb7-85ed-dfca61a5b559
 let
 	n = Int(ceil(T2 * size(ts, 1)))
-	plot3d(x[1:n], y[1:n], z[1:n], camera = (bc1, bc2), legend=false, xlabel="\$x\$", ylabel="\$y\$", zlabel="\$z\$", c=4)
+	plot3d(x[1:n], y[1:n], z[1:n], camera = (bc1, bc2), legend=false, xlabel="\$x\$", ylabel="\$y\$", zlabel="\$z\$", c=4, linewidth=lw)
 end
 
 # ╔═╡ 28ad145d-e2c0-4feb-af8e-c7ff68ed7370
@@ -91,8 +97,8 @@ $(@bind chaosc2 Slider(0:90; default=25))
 # ╔═╡ 75592b18-8009-4a4a-b00a-28d88c128685
 let
 	n = Int(ceil(T3 * size(ts, 1)))
-	plot3d(ts[1:n,1], ts[1:n,2], ts[1:n,3], legend=false)
-	plot3d!(ts2[1:n,1], ts2[1:n,2], ts2[1:n,3], legend=false, xlabel="\$x\$", ylabel="\$y\$", zlabel="\$z\$", camera=(chaosc1, chaosc2))
+	plot3d(ts[1:n,1], ts[1:n,2], ts[1:n,3], legend=false, linewidth=lw)
+	plot3d!(ts2[1:n,1], ts2[1:n,2], ts2[1:n,3], legend=false, xlabel="\$x\$", ylabel="\$y\$", zlabel="\$z\$", camera=(chaosc1, chaosc2), linewidth=lw)
 end
 
 
@@ -113,20 +119,20 @@ begin
 	𝒟0 = embed(ts[:,1], 3, 10)	
 	n4 = Int(ceil(T4 * size(𝒟0, 1)))
 	
-	Plots.plot(ts[1:n4,1], legend=false, title="\$x_t\$")
+	Plots.plot(ts[1:n4,1], legend=false, title="\$x_t\$", linewidth=lw)
 	
 	i_1 = Int(ceil(n4 / 4))
 	p1 = scatter!([i_1], [ts[i_1,1]], c=2)
 	p1 = scatter!([i_1+10], [ts[i_1+10,1]], c=3)
 	p1 = scatter!([i_1+20], [ts[i_1+20,1]], c=4)
 	
-	Plots.plot(𝒟0[1:n4,1], legend=false, title="\$x_t\$")
+	Plots.plot(𝒟0[1:n4,1], legend=false, title="\$x_t\$", linewidth=lw)
 	p2 = scatter!([i_1], [ts[i_1,1]], c=2)
 	
-	Plots.plot(𝒟0[1:n4,2], legend=false, title="\$x_{t+\\tau}\$")
+	Plots.plot(𝒟0[1:n4,2], legend=false, title="\$x_{t+\\tau}\$", linewidth=lw)
 	p3 = scatter!([i_1], [ts[i_1+10,1]], c=3)
 	
-	Plots.plot(𝒟0[1:n4,3], legend=false, title="\$x_{t+2\\tau}\$")
+	Plots.plot(𝒟0[1:n4,3], legend=false, title="\$x_{t+2\\tau}\$", linewidth=lw)
 	p4 = scatter!([i_1], [ts[i_1+20,1]], c=4)
 	
 	Plots.plot(p1, p2, p3, p4, layout = @layout [a ; b c d])
@@ -151,7 +157,7 @@ $(@bind xEmbedC2 Slider(0:90; default=25))
 # ╔═╡ 6f1257b0-cba6-4f57-878d-1de54b8dbc0e
 let	
 	n = Int(ceil(xEmbedT * size(𝒟, 1)))
-	plot3d(𝒟[1:n, 1], 𝒟[1:n, 2], 𝒟[1:n, 3], c=3, camera = (xEmbedC1, xEmbedC2), legend=false, xlabel="\$x_t\$", ylabel="\$x_{t+\\tau}\$", zlabel="\$x_{t+2\\tau}\$")
+	plot3d(𝒟[1:n, 1], 𝒟[1:n, 2], 𝒟[1:n, 3], c=3, camera = (xEmbedC1, xEmbedC2), legend=false, xlabel="\$x_t\$", ylabel="\$x_{t+\\tau}\$", zlabel="\$x_{t+2\\tau}\$", linewidth=lw)
 end
 
 # ╔═╡ f122312e-f401-4bf3-8e41-6692426a7780
@@ -170,20 +176,20 @@ $(@bind bxC2 Slider(0:90; default=25))
 let	
 	gap = 100
 	n = Int(ceil(bxT * min(size(ts, 1), size(𝒟, 1))))
-	plot3d(ts[1:n,1], ts[1:n,2], ts[1:n,3], camera = (bc1, bc2), legend=false, xlabel="\$x\$", ylabel="\$y\$", zlabel="\$z\$", c=4)
-	plot3d!(𝒟[1:n, 1] .+ gap, 𝒟[1:n, 2], 𝒟[1:n, 3], c=3, camera = (bxC1, bxC2), legend=false)
+	plot3d(ts[1:n,1], ts[1:n,2], ts[1:n,3], camera = (bc1, bc2), legend=false, xlabel="\$x\$", ylabel="\$y\$", zlabel="\$z\$", c=4, linewidth=2)
+	plot3d!(𝒟[1:n, 1] .+ gap, 𝒟[1:n, 2], 𝒟[1:n, 3], c=3, camera = (bxC1, bxC2), legend=false, linewidth=lw)
 	
 	plot3d!([ts[n, 1], 𝒟[n, 1] + gap],
 		[ts[n, 2], 𝒟[n, 2]],
 		[ts[n, 3], 𝒟[n, 3]],
-		c="black", legend=false)
+		c="black", legend=false, linewidth=lw)
 end
 
 # ╔═╡ f618535e-1ecc-432b-b92b-db79e0a425f9
 md"### That was based on $x$, what about $y$?"
 
 # ╔═╡ 417395c0-f593-43c1-a802-006bee81ebcf
-𝒟Y = embed(y, 3, 10)
+𝒟Y = embed(y, 3, 10);
 
 # ╔═╡ f7f5e9f8-72c2-4fdd-883b-8640a0a7209c
 md"##### Lagged embedding of $y$"
@@ -200,7 +206,7 @@ $(@bind yEmbedC2 Slider(0:90; default=25))
 # ╔═╡ 38b75055-1e33-4082-8e9a-b9a5e822671c
 begin
 	yEmbedN = Int(ceil(yEmbedT * size(𝒟, 1)))
-	shadowY = plot3d(𝒟Y[1:yEmbedN, 1], 𝒟Y[1:yEmbedN, 2], 𝒟Y[1:yEmbedN, 3], c=2, camera = (yEmbedC1, yEmbedC2), legend=false, xlabel="\$y_t\$", ylabel="\$y_{t+\\tau}\$", zlabel="\$y_{t+2\\tau}\$")
+	shadowY = plot3d(𝒟Y[1:yEmbedN, 1], 𝒟Y[1:yEmbedN, 2], 𝒟Y[1:yEmbedN, 3], c=2, camera = (yEmbedC1, yEmbedC2), legend=false, xlabel="\$y_t\$", ylabel="\$y_{t+\\tau}\$", zlabel="\$y_{t+2\\tau}\$", linewidth=lw)
 end
 
 # ╔═╡ e47d366b-467d-470c-a32e-8d655eaf9940
@@ -221,21 +227,21 @@ let
 	gap = bxyGap
 	n = Int(ceil(bxyT * min(size(ts, 1), size(𝒟, 1))))
 	
-	plot3d(ts[1:n,1], ts[1:n,2], ts[1:n,3], camera = (bc1, bc2), legend=false, xlabel="\$x\$", ylabel="\$y\$", zlabel="\$z\$", c=4)
+	plot3d(ts[1:n,1], ts[1:n,2], ts[1:n,3], camera = (bc1, bc2), legend=false, xlabel="\$x\$", ylabel="\$y\$", zlabel="\$z\$", c=4, linewidth=lw)
 	
-	plot3d!(𝒟[1:n, 1] .+ gap, 𝒟[1:n, 2], 𝒟[1:n, 3], c=3, legend=false)
+	plot3d!(𝒟[1:n, 1] .+ gap, 𝒟[1:n, 2], 𝒟[1:n, 3], c=3, legend=false, linewidth=lw)
 	
-	plot3d!(𝒟Y[1:n, 1] .+ gap, 𝒟Y[1:n, 2], 𝒟Y[1:n, 3] .+ gap, c=2, camera = (bxyC1, bxyC2), legend=false)
+	plot3d!(𝒟Y[1:n, 1] .+ gap, 𝒟Y[1:n, 2], 𝒟Y[1:n, 3] .+ gap, c=2, camera = (bxyC1, bxyC2), legend=false, linewidth=lw)
 	
 	plot3d!([ts[n, 1], 𝒟[n, 1] + gap],
 		[ts[n, 2], 𝒟[n, 2]],
 		[ts[n, 3], 𝒟[n, 3]],
-		c="black", legend=false)
+		c="black", legend=false, linewidth=lw)
 	
 	plot3d!([ts[n, 1], 𝒟Y[n, 1] + gap],
 		[ts[n, 2], 𝒟Y[n, 2]],
 		[ts[n, 3], 𝒟Y[n, 3] + gap],
-		c="black", legend=false)
+		c="black", legend=false, linewidth=lw)
 	
 end
 
@@ -257,13 +263,13 @@ let
 	gap = xyGap
 	n = Int(ceil(xyEmbedT * size(𝒟, 1)))
 	
-	plot3d(𝒟[1:n, 1], 𝒟[1:n, 2], 𝒟[1:n, 3], c=3, legend=false)
-	plot3d!(𝒟Y[1:n, 1] .+ gap, 𝒟Y[1:n, 2], 𝒟Y[1:n, 3]  .- gap , c=2, camera = (xyEmbedC1, xyEmbedC2), legend=false)
+	plot3d(𝒟[1:n, 1], 𝒟[1:n, 2], 𝒟[1:n, 3], c=3, legend=false, linewidth=lw)
+	plot3d!(𝒟Y[1:n, 1] .+ gap, 𝒟Y[1:n, 2], 𝒟Y[1:n, 3]  .- gap , c=2, camera = (xyEmbedC1, xyEmbedC2), legend=false, linewidth=lw)
 	
 	plot3d!([𝒟[n, 1], 𝒟Y[n, 1] + gap],
 		[𝒟[n, 2], 𝒟Y[n, 2]],
 		[𝒟[n, 3], 𝒟Y[n, 3] - gap],
-		c="black", legend=false)
+		c="black", legend=false, linewidth=lw)
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -1952,6 +1958,7 @@ version = "1.4.1+0"
 # ╟─cefd76cb-8438-4e76-ac8b-c12c3926103f
 # ╟─a6d92c62-feaf-4635-9181-48ea35f1e6c8
 # ╟─88f88dfc-aa0e-4478-bd58-7bc3bd82aab9
+# ╟─ce1abf76-dc20-4ca7-81c2-6024cdd7427a
 # ╟─a27780c7-877e-43e3-a8ce-be6596bf415b
 # ╟─3aac8f34-ee88-4d3e-8ef9-f3fe004833c0
 # ╟─239044ab-f35b-4ade-a9a5-4d9899621d4f
