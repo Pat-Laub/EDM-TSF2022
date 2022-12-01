@@ -6,6 +6,7 @@ date: 2 December 2022
 date-format: long
 format:
   revealjs:
+    html-math-method: katex
     theme: [serif, custom.scss]
     controls: true
     controls-tutorial: true
@@ -22,8 +23,6 @@ format:
     include-before: <div class="line right"></div>
     footer: Patrick Laub, Time-Series and Forecasting Symposium, University of Sydney
 highlight-style: breeze
-execute:
-  echo: true
 ---
 
 <!--
@@ -57,12 +56,21 @@ Cf. [https://pat-laub.github.io](https://pat-laub.github.io).
 :::
 :::
 
-## Unrelated past work
+## Other unrelated past work
 
-.. but perhaps of interest, an ABC Python package.
+::: columns
+::: column
 
 <iframe src="https://pat-laub.github.io/approxbayescomp/" width="100%" height="500" style="border:none;"></iframe>
- 
+
+:::
+::: column
+
+<iframe src="https://pat-laub.github.io/DeepLearningForActuaries/" width="100%" height="500" style="border:none;"></iframe>
+
+:::
+:::
+
 
 ## Goal: automatic causal inference
 
@@ -90,7 +98,7 @@ tempCCMCausesCrime <- easy_edm("Temperature", "Crime", data=df)
 
 ## {.smaller}
 
-<div style="border: 3px dashed #555"><img src="stata-journal-paper-title.png" /></div>
+<div style="border: 0px dashed #555"><img src="stata-journal-paper-title.png" /></div>
 
 ::: columns
 ::: column
@@ -133,7 +141,7 @@ $$
 \end{aligned}
 $$
 
-then we can say $y \Rightarrow x$, both $x, z \Rightarrow y$, and both $x, y \Rightarrow z$.
+then $y \Rightarrow x$, both $x, z \Rightarrow y$, and both $x, y \Rightarrow z$.
 
 ## Linear/nonlinear dynamical systems
 
@@ -173,7 +181,15 @@ Takens' theorem to the rescue, though...
 > Unfortunately, to really understand it, it requires a background in topology.
 > (Munch et al. 2020)
 
-<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem#Simplified,_slightly_inaccurate_version" width="100%" height="250" style="border:none;"></iframe>
+::: columns
+::: column
+![](takens-header.png)
+![](takens-contents.png)
+:::
+::: column
+![](takens-simplified.png)
+:::
+:::
 
 ::: footer
 Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.
@@ -183,7 +199,6 @@ Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics
 
 ## Create lagged embeddings
 
-<br>
 <br>
 
 Given $\{ x_t \}_{t\in\mathbb{N}}$ time series, create $E$-length trajectories
@@ -218,12 +233,9 @@ Parametrised by $\tau, p \in \mathbb{N}$.
 ## Split the data
 
 Say $\mathcal{L} = \{ \overleftarrow{\mathbf{x}}_1 , \overleftarrow{\mathbf{x}}_2 , \dots , \overleftarrow{\mathbf{x}}_{T/2} \}$
-is the _library_ ($\approx$ train) set.
-
-And $\mathcal{P} = \{ \overleftarrow{\mathbf{x}}_{T/2+1} , \dots , \overleftarrow{\mathbf{x}}_{T} \}$
+is the _library_ ($\approx$ train) set,
+& $\mathcal{P} = \{ \overleftarrow{\mathbf{x}}_{T/2+1} , \dots , \overleftarrow{\mathbf{x}}_{T} \}$
 is the _prediction_ ($\approx$ test) set.
-
-<br>
 
 For point $\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}$, find $k$ nearest neighbours in $\mathcal{L}$.
 Say, e.g., $k=2$ and the neighbours are 
@@ -288,7 +300,7 @@ $$\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s$$
 
 If $x_t$ causes $y_t$, then information about $x_t$ is somehow embedded in $y_t$.
 
-By observing $y_t$, we should be able to (roughly) forecast $x_t$.
+By observing $y_t$, we should be able to forecast $x_t$.
 
 By observing more of $y_t$ (more "training data"), our forecasts of $x_t$ should be more accurate.
 
@@ -352,15 +364,6 @@ Thanks to Rishi Dhushiyandan for his hard work on `easy_edm`.
 - programming (Stata/Mata, R, Javascript, C++, Python)
 
 I/we will be very happy to have your help with this! 
-
-<!--
-## Sydney house price forecasting
-
-```{python}
-import fastEDM
-dir(fastEDM)
-```
--->
 
 <!--
 ## Package features

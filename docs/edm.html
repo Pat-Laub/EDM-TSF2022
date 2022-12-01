@@ -7,7 +7,7 @@
 <link href="edm_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="edm_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="edm_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.2.269">
+  <meta name="generator" content="quarto-1.3.34">
 
   <meta name="author" content="Dr Patrick Laub">
   <meta name="dcterms.date" content="2022-12-02">
@@ -95,6 +95,22 @@
     code span.wa { color: #bf0303; } /* Warning */
   </style>
   <link rel="stylesheet" href="edm_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
   <link href="edm_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="edm_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="edm_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -432,11 +448,17 @@ Dr Patrick Laub
 </div>
 </div>
 </section>
-<section id="unrelated-past-work" class="slide level2">
-<h2>Unrelated past work</h2>
-<p>.. but perhaps of interest, an ABC Python package.</p>
+<section id="other-unrelated-past-work" class="slide level2">
+<h2>Other unrelated past work</h2>
+<div class="columns">
+<div class="column">
 <iframe src="https://pat-laub.github.io/approxbayescomp/" width="100%" height="500" style="border:none;">
 </iframe>
+</div><div class="column">
+<iframe src="https://pat-laub.github.io/DeepLearningForActuaries/" width="100%" height="500" style="border:none;">
+</iframe>
+</div>
+</div>
 </section>
 <section id="goal-automatic-causal-inference" class="slide level2">
 <h2>Goal: automatic causal inference</h2>
@@ -461,7 +483,7 @@ Dr Patrick Laub
 </section>
 <section id="section" class="slide level2 smaller">
 <h2></h2>
-<div style="border: 3px dashed #555">
+<div style="border: 0px dashed #555">
 <img src="stata-journal-paper-title.png">
 </div>
 <div class="columns">
@@ -491,27 +513,27 @@ Dr Patrick Laub
 <section id="a-different-view-of-causality" class="slide level2">
 <h2>A different view of causality</h2>
 <p><br></p>
-<p>Imagine <span class="math inline">\(x_t\)</span>, <span class="math inline">\(y_t\)</span>, <span class="math inline">\(z_t\)</span> are interesting time series…</p>
+<p>Imagine <span class="math inline">x_t</span>, <span class="math inline">y_t</span>, <span class="math inline">z_t</span> are interesting time series…</p>
 <p><em>If</em> the data is generated according to the nonlinear system:</p>
-<p><span class="math display">\[
+<p><span class="math display">
 \begin{aligned}
   x_{t+1}  &amp;= \sigma (y_t - x_t) \\
   y_{t+1}  &amp;= x_t (\rho - z_t) - y_t \\
   z_{t+1}  &amp;= x_t y_t - \beta z_t
 \end{aligned}
-\]</span></p>
-<p>then we can say <span class="math inline">\(y \Rightarrow x\)</span>, both <span class="math inline">\(x, z \Rightarrow y\)</span>, and both <span class="math inline">\(x, y \Rightarrow z\)</span>.</p>
+</span></p>
+<p>then <span class="math inline">y \Rightarrow x</span>, both <span class="math inline">x, z \Rightarrow y</span>, and both <span class="math inline">x, y \Rightarrow z</span>.</p>
 </section>
 <section id="linearnonlinear-dynamical-systems" class="slide level2">
 <h2>Linear/nonlinear dynamical systems</h2>
 <p><br></p>
-<p>Say <span class="math inline">\(\mathbf{x}_t = (x_t, y_t, z_t)\)</span>, then if:</p>
+<p>Say <span class="math inline">\mathbf{x}_t = (x_t, y_t, z_t)</span>, then if:</p>
 <div class="columns">
 <div class="column">
-<p><span class="math display">\[ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} \]</span></p>
+<p><span class="math display"> \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} </span></p>
 <p>we have a linear system.</p>
 </div><div class="column">
-<p><span class="math display">\[ \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) \]</span></p>
+<p><span class="math display"> \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) </span></p>
 <p>we have a nonlinear system.</p>
 </div>
 </div>
@@ -519,7 +541,7 @@ Dr Patrick Laub
 <p>Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)</p>
 </blockquote>
 <div class="footer">
-<p>We don’t fit a model for <span class="math inline">\(f\)</span>, non-parametrically use the data. Hence the name <em>empirical</em> dynamic modelling.</p>
+<p>We don’t fit a model for <span class="math inline">f</span>, non-parametrically use the data. Hence the name <em>empirical</em> dynamic modelling.</p>
 </div>
 </section>
 <section id="noise-unobserved-variables" class="slide level2">
@@ -528,8 +550,13 @@ Dr Patrick Laub
 <blockquote>
 <p>Takens’ theorem is a deep mathematical result with far-reaching implications. Unfortunately, to really understand it, it requires a background in topology. (Munch et al.&nbsp;2020)</p>
 </blockquote>
-<iframe src="https://en.wikipedia.org/wiki/Takens%27s_theorem#Simplified,_slightly_inaccurate_version" width="100%" height="250" style="border:none;">
-</iframe>
+<div class="columns">
+<div class="column">
+<p><img data-src="takens-header.png"> <img data-src="takens-contents.png"></p>
+</div><div class="column">
+<p><img data-src="takens-simplified.png"></p>
+</div>
+</div>
 <div class="footer">
 <p>Source: Munch et al.&nbsp;(2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.</p>
 </div>
@@ -541,11 +568,11 @@ Dr Patrick Laub
 </section>
 <section id="create-lagged-embeddings" class="slide level2">
 <h2>Create lagged embeddings</h2>
-<p><br> <br></p>
-<p>Given <span class="math inline">\(\{ x_t \}_{t\in\mathbb{N}}\)</span> time series, create <span class="math inline">\(E\)</span>-length trajectories</p>
-<p><span class="math display">\[ \overleftarrow{\mathbf{x}}_t = (x_t, x_{t-1}, x_{t-2}, \dots, x_{t-(E-1)}) \in \mathbb{R}^{E} \]</span></p>
+<p><br></p>
+<p>Given <span class="math inline">\{ x_t \}_{t\in\mathbb{N}}</span> time series, create <span class="math inline">E</span>-length trajectories</p>
+<p><span class="math display"> \overleftarrow{\mathbf{x}}_t = (x_t, x_{t-1}, x_{t-2}, \dots, x_{t-(E-1)}) \in \mathbb{R}^{E} </span></p>
 <p>and targets</p>
-<p><span class="math display">\[ y_t = (x_{t+1}) .\]</span></p>
+<p><span class="math display"> y_t = (x_{t+1}) .</span></p>
 <div class="callout callout-note callout-captioned callout-style-default">
 <div class="callout-body">
 <div class="callout-caption">
@@ -555,18 +582,16 @@ Dr Patrick Laub
 <p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>The <span class="math inline">\(\overleftarrow{\mathbf{x}}_t\)</span>’s are called <em>points</em> (on the shadow manifold).</p>
+<p>The <span class="math inline">\overleftarrow{\mathbf{x}}_t</span>’s are called <em>points</em> (on the shadow manifold).</p>
 </div>
 </div>
 </div>
 </section>
 <section id="split-the-data" class="slide level2">
 <h2>Split the data</h2>
-<p>Say <span class="math inline">\(\mathcal{L} = \{ \overleftarrow{\mathbf{x}}_1 , \overleftarrow{\mathbf{x}}_2 , \dots , \overleftarrow{\mathbf{x}}_{T/2} \}\)</span> is the <em>library</em> (<span class="math inline">\(\approx\)</span> train) set.</p>
-<p>And <span class="math inline">\(\mathcal{P} = \{ \overleftarrow{\mathbf{x}}_{T/2+1} , \dots , \overleftarrow{\mathbf{x}}_{T} \}\)</span> is the <em>prediction</em> (<span class="math inline">\(\approx\)</span> test) set.</p>
-<p><br></p>
-<p>For point <span class="math inline">\(\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}\)</span>, find <span class="math inline">\(k\)</span> nearest neighbours in <span class="math inline">\(\mathcal{L}\)</span>. Say, e.g., <span class="math inline">\(k=2\)</span> and the neighbours are</p>
-<p><span class="math display">\[\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)\]</span></p>
+<p>Say <span class="math inline">\mathcal{L} = \{ \overleftarrow{\mathbf{x}}_1 , \overleftarrow{\mathbf{x}}_2 , \dots , \overleftarrow{\mathbf{x}}_{T/2} \}</span> is the <em>library</em> (<span class="math inline">\approx</span> train) set, &amp; <span class="math inline">\mathcal{P} = \{ \overleftarrow{\mathbf{x}}_{T/2+1} , \dots , \overleftarrow{\mathbf{x}}_{T} \}</span> is the <em>prediction</em> (<span class="math inline">\approx</span> test) set.</p>
+<p>For point <span class="math inline">\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}</span>, find <span class="math inline">k</span> nearest neighbours in <span class="math inline">\mathcal{L}</span>. Say, e.g., <span class="math inline">k=2</span> and the neighbours are</p>
+<p><span class="math display">\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)</span></p>
 <div class="callout callout-note callout-captioned callout-style-default">
 <div class="callout-body">
 <div class="callout-caption">
@@ -576,7 +601,7 @@ Dr Patrick Laub
 <p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>Calculating the distances from <span class="math inline">\(\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}\)</span> to every point in <span class="math inline">\(\mathcal{L}\)</span> and finding nearest neighbours can be computationally demanding.</p>
+<p>Calculating the distances from <span class="math inline">\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}</span> to every point in <span class="math inline">\mathcal{L}</span> and finding nearest neighbours can be computationally demanding.</p>
 </div>
 </div>
 </div>
@@ -585,9 +610,9 @@ Dr Patrick Laub
 <h2>Non-parametric prediction</h2>
 <div class="columns">
 <div class="column">
-<p>Given <span class="math inline">\(\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}\)</span>, has the neighbours</p>
+<p>Given <span class="math inline">\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}</span>, has the neighbours</p>
 </div><div class="column">
-<p><span class="math display">\[\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)\]</span></p>
+<p><span class="math display">\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)</span></p>
 </div>
 </div>
 <div class="columns">
@@ -595,7 +620,7 @@ Dr Patrick Laub
 <p><strong>Simplex method</strong>:</p>
 <p>Predict</p>
 </div><div class="column">
-<p><span class="math display">\[\widehat{y}_s = w_1 y_3 + w_2 y_5 .\]</span></p>
+<p><span class="math display">\widehat{y}_s = w_1 y_3 + w_2 y_5 .</span></p>
 </div>
 </div>
 <p><br></p>
@@ -604,16 +629,16 @@ Dr Patrick Laub
 <p><strong>S-map method</strong>:</p>
 <p>Build a local linear system and predict using a local autoregressive style.</p>
 </div><div class="column">
-<p><span class="math display">\[\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s\]</span></p>
+<p><span class="math display">\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s</span></p>
 </div>
 </div>
 </section>
 <section id="causation" class="slide level2">
 <h2>Causation</h2>
 <p><br></p>
-<p>If <span class="math inline">\(x_t\)</span> causes <span class="math inline">\(y_t\)</span>, then information about <span class="math inline">\(x_t\)</span> is somehow embedded in <span class="math inline">\(y_t\)</span>.</p>
-<p>By observing <span class="math inline">\(y_t\)</span>, we should be able to (roughly) forecast <span class="math inline">\(x_t\)</span>.</p>
-<p>By observing more of <span class="math inline">\(y_t\)</span> (more “training data”), our forecasts of <span class="math inline">\(x_t\)</span> should be more accurate.</p>
+<p>If <span class="math inline">x_t</span> causes <span class="math inline">y_t</span>, then information about <span class="math inline">x_t</span> is somehow embedded in <span class="math inline">y_t</span>.</p>
+<p>By observing <span class="math inline">y_t</span>, we should be able to forecast <span class="math inline">x_t</span>.</p>
+<p>By observing more of <span class="math inline">y_t</span> (more “training data”), our forecasts of <span class="math inline">x_t</span> should be more accurate.</p>
 <p>This is the core idea behind <strong>convergent cross mapping</strong>.</p>
 <p><em>Example</em>: <a href="https://edm-developers.github.io/fastEDM-r/articles/chicago.html">Chicago crime and temperature</a>.</p>
 </section></section>
@@ -677,7 +702,6 @@ Dr Patrick Laub
   <script src="edm_files/libs/revealjs/plugin/notes/notes.js"></script>
   <script src="edm_files/libs/revealjs/plugin/search/search.js"></script>
   <script src="edm_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="edm_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -846,27 +870,9 @@ Dr Patrick Laub
         // Factor of the display size that should remain empty around the content
         margin: 0.2,
 
-        math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
-          config: 'TeX-AMS_HTML-full',
-          tex2jax: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['\\[','\\]']],
-            balanceBraces: true,
-            processEscapes: false,
-            processRefs: true,
-            processEnvironments: true,
-            preview: 'TeX',
-            skipTags: ['script','noscript','style','textarea','pre','code'],
-            ignoreClass: 'tex2jax_ignore',
-            processClass: 'tex2jax_process'
-          },
-        },
-
         // reveal.js plugins
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
-          RevealMath,
           RevealNotes,
           RevealSearch,
           RevealZoom
