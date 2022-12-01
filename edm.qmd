@@ -38,6 +38,9 @@ execute:
 
 ## About me
 
+::: columns
+::: {.column width="70%"}
+
 - Software engineer & mathematics (UQ)
 - PhD in computational applied probability (Aarhus)
 - Actuarial science post-doc (Lyon)
@@ -45,6 +48,21 @@ execute:
 - Actuarial science lecturer (UNSW)
 
 Cf. [https://pat-laub.github.io](https://pat-laub.github.io).
+
+:::
+::: {.column width="30%"}
+
+![Our book](hawkes-book-cover.jpeg)
+
+:::
+:::
+
+## Unrelated past work
+
+.. but perhaps of interest, an ABC Python package.
+
+<iframe src="https://pat-laub.github.io/approxbayescomp/" width="100%" height="500" style="border:none;"></iframe>
+ 
 
 ## Goal: automatic causal inference
 
@@ -292,15 +310,19 @@ _Example_: [Chicago crime and temperature](https://edm-developers.github.io/fast
 
 ## R package
 
-<iframe src="https://edm-developers.github.io/fastEDM-r/" width="100%" height="600" style="border:none;"></iframe>
+<iframe src="https://edm-developers.github.io/fastEDM-r/" width="100%" height="450" style="border:none;"></iframe>
+
+Unit & integration tests (5,342 LOC), Git, Github Actions, documentation, ASAN, linting, all OSs.
+
+<!-- 
+wc -l edm-stata/src/main/test.cpp edm-stata/test/ci-test.do fastEDM-r/tests/testthat/* fastEDM-python/tests/*.py
+-->
 
 ## Python package
 
-<iframe src="https://edm-developers.github.io/fastEDM-python/" width="100%" height="400" style="border:none;"></iframe>
+<iframe src="https://edm-developers.github.io/fastEDM-python/" width="100%" height="450" style="border:none;"></iframe>
 
-::: {.callout-note}
 Thanks to Rishi Dhushiyandan for his hard work on `easy_edm`.
-:::
 
 ## Get involved!
 
