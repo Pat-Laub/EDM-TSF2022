@@ -310,13 +310,23 @@ _Example_: [Chicago crime and temperature](https://edm-developers.github.io/fast
 
 ## R package
 
-<iframe src="https://edm-developers.github.io/fastEDM-r/" width="100%" height="450" style="border:none;"></iframe>
+<iframe src="https://edm-developers.github.io/fastEDM-r/" width="100%" height="400" style="border:none;"></iframe>
 
-Unit & integration tests (5,342 LOC), Git, Github Actions, documentation, ASAN, linting, all OSs.
+Code (9,745 LOC), unit & integration tests (5,342 LOC), documentation (2,804 LOC), Git (1,198 commits), Github Actions (11 tasks), microbenchmarking, ASAN, linting, all C++ compilers, WASM, all OSs.
 
 <!-- 
+
+wc -l edm-stata/src/*.h edm-stata/src/*.cpp edm-stata/src/main/benchmark.cpp edm-stata/src/main/cli_main.cpp edm-stata/src/main/stata.cpp edm-stata/stata/edm.ado fastEDM-r/R/* fastEDM-python/fastEDM/*.py
+
 wc -l edm-stata/src/main/test.cpp edm-stata/test/ci-test.do fastEDM-r/tests/testthat/* fastEDM-python/tests/*.py
+
+wc -l edm-stata/docs/*.md edm-stata/docs/examples/chicago.md edm-stata/docs/examples/logistic-map.md edm-stata/docs/assets/*js fastEDM-r/man/*.Rd fastEDM-r/man/chicago-easy-edm-example.R fastEDM-r/vignettes/chicago.Rmd fastEDM-python/docs/*.md fastEDM-python/docs/manifolds/manifolds.py
+
+git rev-list --all --count
 -->
+
+::: footer
+:::
 
 ## Python package
 
