@@ -409,14 +409,17 @@
 
 <section id="title-slide" data-background-image="unsw-yellow-shape.png" data-background-size="contain !important" class="quarto-title-block center">
   <h1 class="title">Empirical Dynamic Modelling</h1>
-  <p class="subtitle">Automatic Causal Inference and Forecasting<br>TSF 2022</p>
+  <p class="subtitle">Automatic Causal Inference and Forecasting</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
 Dr Patrick Laub 
 </div>
-</div>
+        <p class="quarto-title-affiliation">
+            Time-Series and Forecasting Symposium
+          </p>
+    </div>
 </div>
 
   <p class="date">December 2, 2022</p>
@@ -429,35 +432,36 @@ Dr Patrick Laub
 <section id="about-me" class="slide level2">
 <h2>About me</h2>
 <div class="columns">
-<div class="column" style="width:70%;">
+<div class="column" style="width:65%;">
+<p><br></p>
 <ul>
-<li>Software engineer &amp; mathematics (UQ)</li>
+<li>Software engineer &amp; maths (UQ)</li>
 <li>PhD in computational applied probability (Aarhus)</li>
 <li>Actuarial science post-doc (Lyon)</li>
 <li>Research software engineer (Uni Melbourne)</li>
 <li>Actuarial science lecturer (UNSW)</li>
 </ul>
-<p>Cf. <a href="https://pat-laub.github.io">https://pat-laub.github.io</a>.</p>
-</div><div class="column" style="width:30%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
+</div><div class="column" style="width:35%;">
 <p><img data-src="hawkes-book-cover.jpeg"></p>
-<p></p><figcaption>Our book</figcaption><p></p>
-</figure>
 </div>
 </div>
+<div class="footer">
+<p>Cf. <a href="https://pat-laub.github.io">https://pat-laub.github.io</a>.</p>
 </div>
 </section>
-<section id="other-unrelated-past-work" class="slide level2">
+<section id="other-unrelated-past-work" class="slide level2" data-visibility="uncounted">
 <h2>Other unrelated past work</h2>
 <div class="columns">
 <div class="column">
-<iframe src="https://pat-laub.github.io/approxbayescomp/" width="100%" height="500" style="border:none;">
+<iframe src="https://pat-laub.github.io/approxbayescomp/" width="100%" height="600" style="border:none;">
 </iframe>
 </div><div class="column">
-<iframe src="https://pat-laub.github.io/DeepLearningForActuaries/" width="100%" height="500" style="border:none;">
+<iframe src="https://pat-laub.github.io/DeepLearningForActuaries/" width="100%" height="600" style="border:none;">
 </iframe>
 </div>
+</div>
+<div class="footer">
+<p>Cf. <a href="https://pat-laub.github.io">https://pat-laub.github.io</a>.</p>
 </div>
 </section>
 <section id="goal-automatic-causal-inference" class="slide level2">
@@ -523,43 +527,6 @@ Dr Patrick Laub
 \end{aligned}
 </span></p>
 <p>then <span class="math inline">y \Rightarrow x</span>, both <span class="math inline">x, z \Rightarrow y</span>, and both <span class="math inline">x, y \Rightarrow z</span>.</p>
-</section>
-<section id="linearnonlinear-dynamical-systems" class="slide level2">
-<h2>Linear/nonlinear dynamical systems</h2>
-<p><br></p>
-<p>Say <span class="math inline">\mathbf{x}_t = (x_t, y_t, z_t)</span>, then if:</p>
-<div class="columns">
-<div class="column">
-<p><span class="math display"> \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} </span></p>
-<p>we have a linear system.</p>
-</div><div class="column">
-<p><span class="math display"> \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) </span></p>
-<p>we have a nonlinear system.</p>
-</div>
-</div>
-<blockquote>
-<p>Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)</p>
-</blockquote>
-<div class="footer">
-<p>We don’t fit a model for <span class="math inline">f</span>, non-parametrically use the data. Hence the name <em>empirical</em> dynamic modelling.</p>
-</div>
-</section>
-<section id="noise-unobserved-variables" class="slide level2">
-<h2>Noise / unobserved variables?</h2>
-<p>Takens’ theorem to the rescue, though…</p>
-<blockquote>
-<p>Takens’ theorem is a deep mathematical result with far-reaching implications. Unfortunately, to really understand it, it requires a background in topology. (Munch et al.&nbsp;2020)</p>
-</blockquote>
-<div class="columns">
-<div class="column">
-<p><img data-src="takens-header.png"> <img data-src="takens-contents.png"></p>
-</div><div class="column">
-<p><img data-src="takens-simplified.png"></p>
-</div>
-</div>
-<div class="footer">
-<p>Source: Munch et al.&nbsp;(2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.</p>
-</div>
 </section></section>
 <section>
 <section id="empirical-dynamic-modelling-edm" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
@@ -652,20 +619,33 @@ Dr Patrick Laub
 <iframe src="https://edm-developers.github.io/edm-stata/" width="100%" height="600" style="border:none;">
 </iframe>
 </section>
-<section id="r-package" class="slide level2">
+<section id="r-package" class="slide level2 smaller">
 <h2>R package</h2>
-<iframe src="https://edm-developers.github.io/fastEDM-r/" width="100%" height="400" style="border:none;">
+<p><br></p>
+<p>Thanks to Rishi Dhushiyandan for his hard work on <code>easy_edm</code>.</p>
+<p><br></p>
+<iframe src="https://edm-developers.github.io/fastEDM-r/" width="100%" height="480" style="border:none;">
 </iframe>
-<p>Code (9,745 LOC), unit &amp; integration tests (5,342 LOC), documentation (2,804 LOC), Git (1,198 commits), Github Actions (11 tasks), microbenchmarking, ASAN, linting, all C++ compilers, WASM, all OSs.</p>
 <div class="footer">
 
 </div>
 </section>
 <section id="python-package" class="slide level2">
 <h2>Python package</h2>
-<iframe src="https://edm-developers.github.io/fastEDM-python/" width="100%" height="450" style="border:none;">
+<iframe src="https://edm-developers.github.io/fastEDM-python/" width="100%" height="600" style="border:none;">
 </iframe>
-<p>Thanks to Rishi Dhushiyandan for his hard work on <code>easy_edm</code>.</p>
+</section>
+<section id="modern-engineering" class="slide level2">
+<h2>Modern engineering</h2>
+<ul>
+<li>Code (9,745 LOC),</li>
+<li>unit &amp; integration tests (5,342 LOC),</li>
+<li>documentation (2,804 LOC),</li>
+<li>Git (1,198 commits),</li>
+<li>Github Actions (11 tasks),</li>
+<li>vectorised, microbenchmarking, ASAN, linting,</li>
+<li>all C++ compilers, WASM, all OSs.</li>
+</ul>
 </section>
 <section id="get-involved" class="slide level2">
 <h2>Get involved!</h2>
@@ -680,8 +660,50 @@ Dr Patrick Laub
 <li>programming (Stata/Mata, R, Javascript, C++, Python)</li>
 </ul>
 <p>I/we will be very happy to have your help with this!</p>
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
+<h1>Appendix</h1>
 
-<img src="unsw-logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
+</section>
+<section id="linearnonlinear-dynamical-systems" class="slide level2" data-visibility="uncounted">
+<h2>Linear/nonlinear dynamical systems</h2>
+<p><br></p>
+<p>Say <span class="math inline">\mathbf{x}_t = (x_t, y_t, z_t)</span>, then if:</p>
+<div class="columns">
+<div class="column">
+<p><span class="math display"> \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} </span></p>
+<p>we have a linear system.</p>
+</div><div class="column">
+<p><span class="math display"> \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) </span></p>
+<p>we have a nonlinear system.</p>
+</div>
+</div>
+<blockquote>
+<p>Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)</p>
+</blockquote>
+<div class="footer">
+<p>We don’t fit a model for <span class="math inline">f</span>, non-parametrically use the data. Hence the name <em>empirical</em> dynamic modelling.</p>
+</div>
+</section>
+<section id="noise-unobserved-variables" class="slide level2" data-visibility="uncounted">
+<h2>Noise / unobserved variables?</h2>
+<p>Takens’ theorem to the rescue, though…</p>
+<blockquote>
+<p>Takens’ theorem is a deep mathematical result with far-reaching implications. Unfortunately, to really understand it, it requires a background in topology. (Munch et al.&nbsp;2020)</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<p><img data-src="takens-header.png"> <img data-src="takens-contents.png"></p>
+</div><div class="column">
+<p><img data-src="takens-simplified.png"></p>
+</div>
+</div>
+<div class="footer">
+<p>Source: Munch et al.&nbsp;(2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.</p>
+</div>
+<p><img src="unsw-logo.svg" class="slide-logo"></p>
+<div class="footer footer-default">
 <p>Patrick Laub, Time-Series and Forecasting Symposium, University of Sydney</p>
 </div>
 </section></section>

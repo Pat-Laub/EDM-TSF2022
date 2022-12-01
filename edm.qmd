@@ -1,6 +1,7 @@
 ---
 title: Empirical Dynamic Modelling
-subtitle: Automatic Causal Inference and Forecasting<br>TSF 2022
+subtitle: Automatic Causal Inference and Forecasting
+institute: Time-Series and Forecasting Symposium
 author: Dr Patrick Laub
 date: 2 December 2022
 date-format: long
@@ -38,37 +39,45 @@ highlight-style: breeze
 ## About me
 
 ::: columns
-::: {.column width="70%"}
+::: {.column width="65%"}
 
-- Software engineer & mathematics (UQ)
+<br>
+
+- Software engineer & maths (UQ)
 - PhD in computational applied probability (Aarhus)
 - Actuarial science post-doc (Lyon)
 - Research software engineer (Uni Melbourne)
 - Actuarial science lecturer (UNSW)
 
+:::
+::: {.column width="35%"}
+
+![](hawkes-book-cover.jpeg)
+
+:::
+:::
+
+::: footer
 Cf. [https://pat-laub.github.io](https://pat-laub.github.io).
-
-:::
-::: {.column width="30%"}
-
-![Our book](hawkes-book-cover.jpeg)
-
-:::
 :::
 
-## Other unrelated past work
+## Other unrelated past work {data-visibility="uncounted"}
 
 ::: columns
 ::: column
 
-<iframe src="https://pat-laub.github.io/approxbayescomp/" width="100%" height="500" style="border:none;"></iframe>
+<iframe src="https://pat-laub.github.io/approxbayescomp/" width="100%" height="600" style="border:none;"></iframe>
 
 :::
 ::: column
 
-<iframe src="https://pat-laub.github.io/DeepLearningForActuaries/" width="100%" height="500" style="border:none;"></iframe>
+<iframe src="https://pat-laub.github.io/DeepLearningForActuaries/" width="100%" height="600" style="border:none;"></iframe>
 
 :::
+:::
+
+::: footer
+Cf. [https://pat-laub.github.io](https://pat-laub.github.io).
 :::
 
 
@@ -142,58 +151,6 @@ $$
 $$
 
 then $y \Rightarrow x$, both $x, z \Rightarrow y$, and both $x, y \Rightarrow z$.
-
-## Linear/nonlinear dynamical systems
-
-<br>
-
-Say $\mathbf{x}_t = (x_t, y_t, z_t)$, then if:
-
-::: columns
-::: column
-
-$$ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} $$
-
-we have a linear system.
-
-:::
-::: column
-
-$$ \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) $$
-
-we have a nonlinear system.
-
-:::
-:::
-
-> Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)
-
-::: footer
-We don't fit a model for $f$, non-parametrically use the data.
-Hence the name _empirical_ dynamic modelling. 
-:::
-
-## Noise / unobserved variables?
-
-Takens' theorem to the rescue, though...
-
-> Takens' theorem is a deep mathematical result with far-reaching implications.
-> Unfortunately, to really understand it, it requires a background in topology.
-> (Munch et al. 2020)
-
-::: columns
-::: column
-![](takens-header.png)
-![](takens-contents.png)
-:::
-::: column
-![](takens-simplified.png)
-:::
-:::
-
-::: footer
-Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.
-:::
 
 # Empirical Dynamic Modelling (EDM) {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
 
@@ -320,11 +277,32 @@ _Example_: [Chicago crime and temperature](https://edm-developers.github.io/fast
 
 <iframe src="https://edm-developers.github.io/edm-stata/" width="100%" height="600" style="border:none;"></iframe>
 
-## R package
+## R package {.smaller}
 
-<iframe src="https://edm-developers.github.io/fastEDM-r/" width="100%" height="400" style="border:none;"></iframe>
+<br>
 
-Code (9,745 LOC), unit & integration tests (5,342 LOC), documentation (2,804 LOC), Git (1,198 commits), Github Actions (11 tasks), microbenchmarking, ASAN, linting, all C++ compilers, WASM, all OSs.
+Thanks to Rishi Dhushiyandan for his hard work on `easy_edm`.
+
+<br>
+
+<iframe src="https://edm-developers.github.io/fastEDM-r/" width="100%" height="480" style="border:none;"></iframe>
+
+::: footer
+:::
+
+## Python package
+
+<iframe src="https://edm-developers.github.io/fastEDM-python/" width="100%" height="600" style="border:none;"></iframe>
+
+## Modern engineering
+
+- Code (9,745 LOC),
+- unit & integration tests (5,342 LOC),
+- documentation (2,804 LOC),
+- Git (1,198 commits),
+- Github Actions (11 tasks),
+- vectorised, microbenchmarking, ASAN, linting, 
+- all C++ compilers, WASM, all OSs.
 
 <!-- 
 
@@ -336,15 +314,6 @@ wc -l edm-stata/docs/*.md edm-stata/docs/examples/chicago.md edm-stata/docs/exam
 
 git rev-list --all --count
 -->
-
-::: footer
-:::
-
-## Python package
-
-<iframe src="https://edm-developers.github.io/fastEDM-python/" width="100%" height="450" style="border:none;"></iframe>
-
-Thanks to Rishi Dhushiyandan for his hard work on `easy_edm`.
 
 ## Get involved!
 
@@ -377,3 +346,57 @@ I/we will be very happy to have your help with this!
 
 - Well-engineered (3 OS, CI, count # LOC tessts)
 -->
+
+# Appendix {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
+
+## Linear/nonlinear dynamical systems {data-visibility="uncounted"}
+
+<br>
+
+Say $\mathbf{x}_t = (x_t, y_t, z_t)$, then if:
+
+::: columns
+::: column
+
+$$ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} $$
+
+we have a linear system.
+
+:::
+::: column
+
+$$ \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) $$
+
+we have a nonlinear system.
+
+:::
+:::
+
+> Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)
+
+::: footer
+We don't fit a model for $f$, non-parametrically use the data.
+Hence the name _empirical_ dynamic modelling. 
+:::
+
+## Noise / unobserved variables? {data-visibility="uncounted"}
+
+Takens' theorem to the rescue, though...
+
+> Takens' theorem is a deep mathematical result with far-reaching implications.
+> Unfortunately, to really understand it, it requires a background in topology.
+> (Munch et al. 2020)
+
+::: columns
+::: column
+![](takens-header.png)
+![](takens-contents.png)
+:::
+::: column
+![](takens-simplified.png)
+:::
+:::
+
+::: footer
+Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.
+:::
