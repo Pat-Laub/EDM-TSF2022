@@ -41,8 +41,6 @@ highlight-style: breeze
 ::: columns
 ::: {.column width="65%"}
 
-<br>
-
 - Software engineer & maths (UQ)
 - PhD in computational applied probability (Aarhus)
 - Actuarial science post-doc (Lyon)
@@ -56,6 +54,8 @@ highlight-style: breeze
 
 :::
 :::
+
+![](typical_cond_int2.svg){.absolute bottom=0 left=150 width="350"}
 
 ::: footer
 Cf. [https://pat-laub.github.io](https://pat-laub.github.io).
@@ -158,13 +158,13 @@ then $y \Rightarrow x$, both $x, z \Rightarrow y$, and both $x, y \Rightarrow z$
 
 <br>
 
-Given $\{ x_t \}_{t\in\mathbb{N}}$ time series, create $E$-length trajectories
+Given two time series, create $E$-length trajectories
 
-$$ \overleftarrow{\mathbf{x}}_t = (x_t, x_{t-1}, x_{t-2}, \dots, x_{t-(E-1)}) \in \mathbb{R}^{E} $$
+$$ \overleftarrow{\mathbf{x}}_t = (\text{Temp}_t, \text{Temp}_{t-1}, \dots, \text{Temp}_{t-(E-1)}) \in \mathbb{R}^{E} $$
 
 and targets
 
-$$ y_t = (x_{t+1}) .$$
+$$ y_t = (\text{Crime}_{t}) .$$
 
 ::: {.callout-note}
 The $\overleftarrow{\mathbf{x}}_t$'s are called _points_ (on the shadow manifold).
@@ -189,79 +189,58 @@ Parametrised by $\tau, p \in \mathbb{N}$.
 
 ## Split the data
 
-Say $\mathcal{L} = \{ \overleftarrow{\mathbf{x}}_1 , \overleftarrow{\mathbf{x}}_2 , \dots , \overleftarrow{\mathbf{x}}_{T/2} \}$
-is the _library_ ($\approx$ train) set,
-& $\mathcal{P} = \{ \overleftarrow{\mathbf{x}}_{T/2+1} , \dots , \overleftarrow{\mathbf{x}}_{T} \}$
-is the _prediction_ ($\approx$ test) set.
+- $\mathcal{L} = \{ (\overleftarrow{\mathbf{x}}_1, y_1) , \dots , (\overleftarrow{\mathbf{x}}_{n} , y_{n}) \}$
+is _library set_,
+- $\mathcal{P} = \{ (\overleftarrow{\mathbf{x}}_{n+1}, y_{n+1}) , \dots , (\overleftarrow{\mathbf{x}}_{T}, y_{T}) \}$
+is _prediction set_.
+
+<br>
+
+For point $\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}$, pretend we don't know $y_s$ and try to predict it.
+
+$$ \forall \, \overleftarrow{\mathbf{x}} \in \mathcal{L} \quad \text{ find } \quad d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}) $$
+
+This is computationally demanding.
+
+## Non-parametric prediction: simplex
+
+<br>
 
 For point $\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}$, find $k$ nearest neighbours in $\mathcal{L}$.
+
 Say, e.g., $k=2$ and the neighbours are 
 
 $$\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)$$
 
-::: {.callout-note}
-Calculating the distances from $\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}$ to every point in $\mathcal{L}$ and finding nearest neighbours can be computationally demanding.
-:::
-
-## Non-parametric prediction
-
-::: columns
-::: column
-
-Given $\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}$, has the neighbours
-
-:::
-::: column
-
-$$\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)$$
-
-:::
-:::
-
-::: columns
-::: column
-
-**Simplex method**:
-
-Predict
-
-::: 
-::: column
+The _simplex method_ predicts
 
 $$\widehat{y}_s = w_1 y_3 + w_2 y_5 .$$ 
 
-::: 
-::: 
+## Non-parametric prediction: S-map
 
 <br>
 
-::: columns
-::: column
+_Sequential Locally Weighted Global Linear Maps (S-map)_
 
-**S-map method**:
+<br>
+
+Weight the points by distance
+$$ w_i = \exp\bigl\{ - \theta d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}_i) \bigr\} $$
 
 Build a local linear system
-and predict using a local autoregressive style.
-
-::: 
-::: column
-
 $$\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s$$
 
-::: 
-::: 
-
-## Causation
+## Convergent cross mapping
 
 <br>
 
-If $x_t$ causes $y_t$, then information about $x_t$ is somehow embedded in $y_t$.
+- If $\text{Temp}_t$ causes $\text{Crime}_t$, then information about $\text{Temp}_t$ is somehow embedded in $\text{Crime}_t$.
 
-By observing $y_t$, we should be able to forecast $x_t$.
+- By observing $\text{Crime}_t$, we should be able to forecast $\text{Temp}_t$.
 
-By observing more of $y_t$ (more "training data"), our forecasts of $x_t$ should be more accurate.
+- By observing more of $\text{Crime}_t$ (more "training data"), our forecasts of $\text{Temp}_t$ should be more accurate.
 
-This is the core idea behind **convergent cross mapping**.
+<br>
 
 _Example_: [Chicago crime and temperature](https://edm-developers.github.io/fastEDM-r/articles/chicago.html).
 
@@ -296,9 +275,9 @@ Thanks to Rishi Dhushiyandan for his hard work on `easy_edm`.
 
 ## Modern engineering
 
-- Code (9,745 LOC),
+- Open code (9,745 LOC) on MIT License,
 - unit & integration tests (5,342 LOC),
-- documentation (2,804 LOC),
+- documentation (3,157 LOC),
 - Git (1,198 commits),
 - Github Actions (11 tasks),
 - vectorised, microbenchmarking, ASAN, linting, 
@@ -310,7 +289,7 @@ wc -l edm-stata/src/*.h edm-stata/src/*.cpp edm-stata/src/main/benchmark.cpp edm
 
 wc -l edm-stata/src/main/test.cpp edm-stata/test/ci-test.do fastEDM-r/tests/testthat/* fastEDM-python/tests/*.py
 
-wc -l edm-stata/docs/*.md edm-stata/docs/examples/chicago.md edm-stata/docs/examples/logistic-map.md edm-stata/docs/assets/*js fastEDM-r/man/*.Rd fastEDM-r/man/chicago-easy-edm-example.R fastEDM-r/vignettes/chicago.Rmd fastEDM-python/docs/*.md fastEDM-python/docs/manifolds/manifolds.py
+wc -l edm-stata/stata/edm.sthlp edm-stata/docs/*.md edm-stata/docs/examples/chicago.md edm-stata/docs/examples/logistic-map.md edm-stata/docs/assets/*js fastEDM-r/man/*.Rd fastEDM-r/man/chicago-easy-edm-example.R fastEDM-r/vignettes/chicago.Rmd fastEDM-python/docs/*.md fastEDM-python/docs/manifolds/manifolds.py
 
 git rev-list --all --count
 -->
@@ -319,20 +298,15 @@ git rev-list --all --count
 
 <br>
 
-🙂 Give it a try, feedback would be very welcome.
+😊 Give it a try, feedback would be very welcome.
 
 <br>
 
-😊 If you have a $ for supporting an RA or a Stata license..
+😍 If you're talented in causal inference or programming (Stata/Mata, R, Javascript, C++, Python), we'd love contributions! 
 
 <br>
 
-😍 If you're talented in
-
-- causal analysis, or
-- programming (Stata/Mata, R, Javascript, C++, Python)
-
-I/we will be very happy to have your help with this! 
+😎 "We actually also have a PhD scholarship if we have a domestic applicant who can commit like in next week" (need $\ge$ 85 in a 4 year degree)
 
 <!--
 ## Package features

@@ -433,7 +433,6 @@ Dr Patrick Laub
 <h2>About me</h2>
 <div class="columns">
 <div class="column" style="width:65%;">
-<p><br></p>
 <ul>
 <li>Software engineer &amp; maths (UQ)</li>
 <li>PhD in computational applied probability (Aarhus)</li>
@@ -445,6 +444,7 @@ Dr Patrick Laub
 <p><img data-src="hawkes-book-cover.jpeg"></p>
 </div>
 </div>
+<p><img data-src="typical_cond_int2.svg" class="absolute" style="left: 150px; bottom: 0px; width: 350px; "></p>
 <div class="footer">
 <p>Cf. <a href="https://pat-laub.github.io">https://pat-laub.github.io</a>.</p>
 </div>
@@ -536,10 +536,10 @@ Dr Patrick Laub
 <section id="create-lagged-embeddings" class="slide level2">
 <h2>Create lagged embeddings</h2>
 <p><br></p>
-<p>Given <span class="math inline">\{ x_t \}_{t\in\mathbb{N}}</span> time series, create <span class="math inline">E</span>-length trajectories</p>
-<p><span class="math display"> \overleftarrow{\mathbf{x}}_t = (x_t, x_{t-1}, x_{t-2}, \dots, x_{t-(E-1)}) \in \mathbb{R}^{E} </span></p>
+<p>Given two time series, create <span class="math inline">E</span>-length trajectories</p>
+<p><span class="math display"> \overleftarrow{\mathbf{x}}_t = (\text{Temp}_t, \text{Temp}_{t-1}, \dots, \text{Temp}_{t-(E-1)}) \in \mathbb{R}^{E} </span></p>
 <p>and targets</p>
-<p><span class="math display"> y_t = (x_{t+1}) .</span></p>
+<p><span class="math display"> y_t = (\text{Crime}_{t}) .</span></p>
 <div class="callout callout-note callout-captioned callout-style-default">
 <div class="callout-body">
 <div class="callout-caption">
@@ -556,57 +556,41 @@ Dr Patrick Laub
 </section>
 <section id="split-the-data" class="slide level2">
 <h2>Split the data</h2>
-<p>Say <span class="math inline">\mathcal{L} = \{ \overleftarrow{\mathbf{x}}_1 , \overleftarrow{\mathbf{x}}_2 , \dots , \overleftarrow{\mathbf{x}}_{T/2} \}</span> is the <em>library</em> (<span class="math inline">\approx</span> train) set, &amp; <span class="math inline">\mathcal{P} = \{ \overleftarrow{\mathbf{x}}_{T/2+1} , \dots , \overleftarrow{\mathbf{x}}_{T} \}</span> is the <em>prediction</em> (<span class="math inline">\approx</span> test) set.</p>
-<p>For point <span class="math inline">\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}</span>, find <span class="math inline">k</span> nearest neighbours in <span class="math inline">\mathcal{L}</span>. Say, e.g., <span class="math inline">k=2</span> and the neighbours are</p>
-<p><span class="math display">\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)</span></p>
-<div class="callout callout-note callout-captioned callout-style-default">
-<div class="callout-body">
-<div class="callout-caption">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>Calculating the distances from <span class="math inline">\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}</span> to every point in <span class="math inline">\mathcal{L}</span> and finding nearest neighbours can be computationally demanding.</p>
-</div>
-</div>
-</div>
+<ul>
+<li><span class="math inline">\mathcal{L} = \{ (\overleftarrow{\mathbf{x}}_1, y_1) , \dots , (\overleftarrow{\mathbf{x}}_{n} , y_{n}) \}</span> is <em>library set</em>,</li>
+<li><span class="math inline">\mathcal{P} = \{ (\overleftarrow{\mathbf{x}}_{n+1}, y_{n+1}) , \dots , (\overleftarrow{\mathbf{x}}_{T}, y_{T}) \}</span> is <em>prediction set</em>.</li>
+</ul>
+<p><br></p>
+<p>For point <span class="math inline">\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}</span>, pretend we don’t know <span class="math inline">y_s</span> and try to predict it.</p>
+<p><span class="math display"> \forall \, \overleftarrow{\mathbf{x}} \in \mathcal{L} \quad \text{ find } \quad d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}) </span></p>
+<p>This is computationally demanding.</p>
 </section>
-<section id="non-parametric-prediction" class="slide level2">
-<h2>Non-parametric prediction</h2>
-<div class="columns">
-<div class="column">
-<p>Given <span class="math inline">\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}</span>, has the neighbours</p>
-</div><div class="column">
+<section id="non-parametric-prediction-simplex" class="slide level2">
+<h2>Non-parametric prediction: simplex</h2>
+<p><br></p>
+<p>For point <span class="math inline">\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}</span>, find <span class="math inline">k</span> nearest neighbours in <span class="math inline">\mathcal{L}</span>.</p>
+<p>Say, e.g., <span class="math inline">k=2</span> and the neighbours are</p>
 <p><span class="math display">\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)</span></p>
-</div>
-</div>
-<div class="columns">
-<div class="column">
-<p><strong>Simplex method</strong>:</p>
-<p>Predict</p>
-</div><div class="column">
+<p>The <em>simplex method</em> predicts</p>
 <p><span class="math display">\widehat{y}_s = w_1 y_3 + w_2 y_5 .</span></p>
-</div>
-</div>
-<p><br></p>
-<div class="columns">
-<div class="column">
-<p><strong>S-map method</strong>:</p>
-<p>Build a local linear system and predict using a local autoregressive style.</p>
-</div><div class="column">
-<p><span class="math display">\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s</span></p>
-</div>
-</div>
 </section>
-<section id="causation" class="slide level2">
-<h2>Causation</h2>
+<section id="non-parametric-prediction-s-map" class="slide level2">
+<h2>Non-parametric prediction: S-map</h2>
 <p><br></p>
-<p>If <span class="math inline">x_t</span> causes <span class="math inline">y_t</span>, then information about <span class="math inline">x_t</span> is somehow embedded in <span class="math inline">y_t</span>.</p>
-<p>By observing <span class="math inline">y_t</span>, we should be able to forecast <span class="math inline">x_t</span>.</p>
-<p>By observing more of <span class="math inline">y_t</span> (more “training data”), our forecasts of <span class="math inline">x_t</span> should be more accurate.</p>
-<p>This is the core idea behind <strong>convergent cross mapping</strong>.</p>
+<p><em>Sequential Locally Weighted Global Linear Maps (S-map)</em></p>
+<p><br></p>
+<p>Weight the points by distance <span class="math display"> w_i = \exp\bigl\{ - \theta d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}_i) \bigr\} </span></p>
+<p>Build a local linear system <span class="math display">\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s</span></p>
+</section>
+<section id="convergent-cross-mapping" class="slide level2">
+<h2>Convergent cross mapping</h2>
+<p><br></p>
+<ul>
+<li><p>If <span class="math inline">\text{Temp}_t</span> causes <span class="math inline">\text{Crime}_t</span>, then information about <span class="math inline">\text{Temp}_t</span> is somehow embedded in <span class="math inline">\text{Crime}_t</span>.</p></li>
+<li><p>By observing <span class="math inline">\text{Crime}_t</span>, we should be able to forecast <span class="math inline">\text{Temp}_t</span>.</p></li>
+<li><p>By observing more of <span class="math inline">\text{Crime}_t</span> (more “training data”), our forecasts of <span class="math inline">\text{Temp}_t</span> should be more accurate.</p></li>
+</ul>
+<p><br></p>
 <p><em>Example</em>: <a href="https://edm-developers.github.io/fastEDM-r/articles/chicago.html">Chicago crime and temperature</a>.</p>
 </section></section>
 <section>
@@ -638,9 +622,9 @@ Dr Patrick Laub
 <section id="modern-engineering" class="slide level2">
 <h2>Modern engineering</h2>
 <ul>
-<li>Code (9,745 LOC),</li>
+<li>Open code (9,745 LOC) on MIT License,</li>
 <li>unit &amp; integration tests (5,342 LOC),</li>
-<li>documentation (2,804 LOC),</li>
+<li>documentation (3,157 LOC),</li>
 <li>Git (1,198 commits),</li>
 <li>Github Actions (11 tasks),</li>
 <li>vectorised, microbenchmarking, ASAN, linting,</li>
@@ -650,16 +634,11 @@ Dr Patrick Laub
 <section id="get-involved" class="slide level2">
 <h2>Get involved!</h2>
 <p><br></p>
-<p>🙂 Give it a try, feedback would be very welcome.</p>
+<p>😊 Give it a try, feedback would be very welcome.</p>
 <p><br></p>
-<p>😊 If you have a $ for supporting an RA or a Stata license..</p>
+<p>😍 If you’re talented in causal inference or programming (Stata/Mata, R, Javascript, C++, Python), we’d love contributions!</p>
 <p><br></p>
-<p>😍 If you’re talented in</p>
-<ul>
-<li>causal analysis, or</li>
-<li>programming (Stata/Mata, R, Javascript, C++, Python)</li>
-</ul>
-<p>I/we will be very happy to have your help with this!</p>
+<p>😎 “We actually also have a PhD scholarship if we have a domestic applicant who can commit like in next week” (need <span class="math inline">\ge</span> 85 in a 4 year degree)</p>
 </section></section>
 <section>
 <section id="appendix" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
