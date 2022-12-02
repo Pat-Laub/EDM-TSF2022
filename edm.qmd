@@ -164,7 +164,7 @@ $$ \overleftarrow{\mathbf{x}}_t = (\text{Temp}_t, \text{Temp}_{t-1}, \dots, \tex
 
 and targets
 
-$$ y_t = (\text{Crime}_{t}) .$$
+$$ y_t = \text{Crime}_{t} .$$
 
 ::: {.callout-note}
 The $\overleftarrow{\mathbf{x}}_t$'s are called _points_ (on the shadow manifold).
@@ -222,13 +222,13 @@ $$\widehat{y}_s = w_1 y_3 + w_2 y_5 .$$
 
 _Sequential Locally Weighted Global Linear Maps (S-map)_
 
-<br>
-
 Weight the points by distance
-$$ w_i = \exp\bigl\{ - \theta d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}_i) \bigr\} $$
+$$ w_i = \exp\bigl\{ - \theta d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}_i) \bigr\} .$$
 
 Build a local linear system
-$$\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s$$
+$$\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s .$$
+
+For all $s \in \mathcal{P}$, compare $\widehat{y}_s$ to true $y_s$, and calculate $\rho$.
 
 ## Convergent cross mapping
 

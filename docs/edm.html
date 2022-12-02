@@ -539,7 +539,7 @@ Dr Patrick Laub
 <p>Given two time series, create <span class="math inline">E</span>-length trajectories</p>
 <p><span class="math display"> \overleftarrow{\mathbf{x}}_t = (\text{Temp}_t, \text{Temp}_{t-1}, \dots, \text{Temp}_{t-(E-1)}) \in \mathbb{R}^{E} </span></p>
 <p>and targets</p>
-<p><span class="math display"> y_t = (\text{Crime}_{t}) .</span></p>
+<p><span class="math display"> y_t = \text{Crime}_{t} .</span></p>
 <div class="callout callout-note callout-captioned callout-style-default">
 <div class="callout-body">
 <div class="callout-caption">
@@ -578,9 +578,9 @@ Dr Patrick Laub
 <h2>Non-parametric prediction: S-map</h2>
 <p><br></p>
 <p><em>Sequential Locally Weighted Global Linear Maps (S-map)</em></p>
-<p><br></p>
-<p>Weight the points by distance <span class="math display"> w_i = \exp\bigl\{ - \theta d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}_i) \bigr\} </span></p>
-<p>Build a local linear system <span class="math display">\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s</span></p>
+<p>Weight the points by distance <span class="math display"> w_i = \exp\bigl\{ - \theta d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}_i) \bigr\} .</span></p>
+<p>Build a local linear system <span class="math display">\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s .</span></p>
+<p>For all <span class="math inline">s \in \mathcal{P}</span>, compare <span class="math inline">\widehat{y}_s</span> to true <span class="math inline">y_s</span>, and calculate <span class="math inline">\rho</span>.</p>
 </section>
 <section id="convergent-cross-mapping" class="slide level2">
 <h2>Convergent cross mapping</h2>
