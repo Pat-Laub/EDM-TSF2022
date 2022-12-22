@@ -7,7 +7,7 @@
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.34">
+  <meta name="generator" content="quarto-1.2.269">
 
   <meta name="author" content="Dr Patrick Laub">
   <meta name="dcterms.date" content="2022-12-02">
@@ -417,7 +417,7 @@
 Dr Patrick Laub 
 </div>
         <p class="quarto-title-affiliation">
-            Time-Series and Forecasting Symposium
+            Time Series and Forecasting Symposium
           </p>
     </div>
 </div>
@@ -428,41 +428,6 @@ Dr Patrick Laub
 <section id="introduction" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
 <h1>Introduction</h1>
 
-</section>
-<section id="about-me" class="slide level2">
-<h2>About me</h2>
-<div class="columns">
-<div class="column" style="width:65%;">
-<ul>
-<li>Software engineer &amp; maths (UQ)</li>
-<li>PhD in computational applied probability (Aarhus)</li>
-<li>Actuarial science post-doc (Lyon)</li>
-<li>Research software engineer (Uni Melbourne)</li>
-<li>Actuarial science lecturer (UNSW)</li>
-</ul>
-</div><div class="column" style="width:35%;">
-<p><img data-src="hawkes-book-cover.jpeg"></p>
-</div>
-</div>
-<p><img data-src="typical_cond_int2.svg" class="absolute" style="left: 150px; bottom: 0px; width: 350px; "></p>
-<div class="footer">
-<p>Cf. <a href="https://pat-laub.github.io">https://pat-laub.github.io</a>.</p>
-</div>
-</section>
-<section id="other-unrelated-past-work" class="slide level2" data-visibility="uncounted">
-<h2>Other unrelated past work</h2>
-<div class="columns">
-<div class="column">
-<iframe src="https://pat-laub.github.io/approxbayescomp/" width="100%" height="600" style="border:none;">
-</iframe>
-</div><div class="column">
-<iframe src="https://pat-laub.github.io/DeepLearningForActuaries/" width="100%" height="600" style="border:none;">
-</iframe>
-</div>
-</div>
-<div class="footer">
-<p>Cf. <a href="https://pat-laub.github.io">https://pat-laub.github.io</a>.</p>
-</div>
 </section>
 <section id="goal-automatic-causal-inference" class="slide level2">
 <h2>Goal: automatic causal inference</h2>
@@ -527,6 +492,43 @@ Dr Patrick Laub
 \end{aligned}
 </span></p>
 <p>then <span class="math inline">y \Rightarrow x</span>, both <span class="math inline">x, z \Rightarrow y</span>, and both <span class="math inline">x, y \Rightarrow z</span>.</p>
+</section>
+<section id="linearnonlinear-dynamical-systems" class="slide level2" data-visibility="uncounted">
+<h2>Linear/nonlinear dynamical systems</h2>
+<p><br></p>
+<p>Say <span class="math inline">\mathbf{x}_t = (x_t, y_t, z_t)</span>, then if:</p>
+<div class="columns">
+<div class="column">
+<p><span class="math display"> \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} </span></p>
+<p>we have a linear system.</p>
+</div><div class="column">
+<p><span class="math display"> \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) </span></p>
+<p>we have a nonlinear system.</p>
+</div>
+</div>
+<blockquote>
+<p>Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)</p>
+</blockquote>
+<div class="footer">
+<p>We don’t fit a model for <span class="math inline">f</span>, non-parametrically use the data. Hence the name <em>empirical</em> dynamic modelling.</p>
+</div>
+</section>
+<section id="noise-or-unobserved-variables" class="slide level2" data-visibility="uncounted">
+<h2>Noise or unobserved variables?</h2>
+<p>Takens’ theorem to the rescue, though…</p>
+<blockquote>
+<p>Takens’ theorem is a deep mathematical result with far-reaching implications. Unfortunately, to really understand it, it requires a background in topology. (Munch et al.&nbsp;2020)</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<p><img data-src="takens-header.png"> <img data-src="takens-contents.png"></p>
+</div><div class="column">
+<p><img data-src="takens-simplified.png"></p>
+</div>
+</div>
+<div class="footer">
+<p>Source: Munch et al.&nbsp;(2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.</p>
+</div>
 </section></section>
 <section>
 <section id="empirical-dynamic-modelling-edm" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
@@ -537,7 +539,7 @@ Dr Patrick Laub
 <h2>Create lagged embeddings</h2>
 <p><br></p>
 <p>Given two time series, create <span class="math inline">E</span>-length trajectories</p>
-<p><span class="math display"> \overleftarrow{\mathbf{x}}_t = (\text{Temp}_t, \text{Temp}_{t-1}, \dots, \text{Temp}_{t-(E-1)}) \in \mathbb{R}^{E} </span></p>
+<p><span class="math display"> \mathbf{x}_t = (\text{Temp}_t, \text{Temp}_{t-1}, \dots, \text{Temp}_{t-(E-1)}) \in \mathbb{R}^{E} </span></p>
 <p>and targets</p>
 <p><span class="math display"> y_t = \text{Crime}_{t} .</span></p>
 <div class="callout callout-note callout-captioned callout-style-default">
@@ -549,7 +551,7 @@ Dr Patrick Laub
 <p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>The <span class="math inline">\overleftarrow{\mathbf{x}}_t</span>’s are called <em>points</em> (on the shadow manifold).</p>
+<p>The <span class="math inline">\mathbf{x}_t</span>’s are called <em>points</em> (on the shadow manifold).</p>
 </div>
 </div>
 </div>
@@ -557,20 +559,20 @@ Dr Patrick Laub
 <section id="split-the-data" class="slide level2">
 <h2>Split the data</h2>
 <ul>
-<li><span class="math inline">\mathcal{L} = \{ (\overleftarrow{\mathbf{x}}_1, y_1) , \dots , (\overleftarrow{\mathbf{x}}_{n} , y_{n}) \}</span> is <em>library set</em>,</li>
-<li><span class="math inline">\mathcal{P} = \{ (\overleftarrow{\mathbf{x}}_{n+1}, y_{n+1}) , \dots , (\overleftarrow{\mathbf{x}}_{T}, y_{T}) \}</span> is <em>prediction set</em>.</li>
+<li><span class="math inline">\mathcal{L} = \{ (\mathbf{x}_1, y_1) , \dots , (\mathbf{x}_{n} , y_{n}) \}</span> is <em>library set</em>,</li>
+<li><span class="math inline">\mathcal{P} = \{ (\mathbf{x}_{n+1}, y_{n+1}) , \dots , (\mathbf{x}_{T}, y_{T}) \}</span> is <em>prediction set</em>.</li>
 </ul>
 <p><br></p>
-<p>For point <span class="math inline">\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}</span>, pretend we don’t know <span class="math inline">y_s</span> and try to predict it.</p>
-<p><span class="math display"> \forall \, \overleftarrow{\mathbf{x}} \in \mathcal{L} \quad \text{ find } \quad d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}) </span></p>
+<p>For point <span class="math inline">\mathbf{x}_{s} \in \mathcal{P}</span>, pretend we don’t know <span class="math inline">y_s</span> and try to predict it.</p>
+<p><span class="math display"> \forall \, \mathbf{x} \in \mathcal{L} \quad \text{ find } \quad d(\mathbf{x}_{s}, \mathbf{x}) </span></p>
 <p>This is computationally demanding.</p>
 </section>
 <section id="non-parametric-prediction-simplex" class="slide level2">
 <h2>Non-parametric prediction: simplex</h2>
 <p><br></p>
-<p>For point <span class="math inline">\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}</span>, find <span class="math inline">k</span> nearest neighbours in <span class="math inline">\mathcal{L}</span>.</p>
+<p>For point <span class="math inline">\mathbf{x}_{s} \in \mathcal{P}</span>, find <span class="math inline">k</span> nearest neighbours in <span class="math inline">\mathcal{L}</span>.</p>
 <p>Say, e.g., <span class="math inline">k=2</span> and the neighbours are</p>
-<p><span class="math display">\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)</span></p>
+<p><span class="math display">\mathcal{NN}_k = \bigl( (\mathbf{x}_{3}, y_3), (\mathbf{x}_{5}, y_5) \bigr)</span></p>
 <p>The <em>simplex method</em> predicts</p>
 <p><span class="math display">\widehat{y}_s = w_1 y_3 + w_2 y_5 .</span></p>
 </section>
@@ -578,8 +580,8 @@ Dr Patrick Laub
 <h2>Non-parametric prediction: S-map</h2>
 <p><br></p>
 <p><em>Sequential Locally Weighted Global Linear Maps (S-map)</em></p>
-<p>Weight the points by distance <span class="math display"> w_i = \exp\bigl\{ - \theta d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}_i) \bigr\} .</span></p>
-<p>Build a local linear system <span class="math display">\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s .</span></p>
+<p>Weight the points by distance <span class="math display"> w_i = \exp\bigl\{ - \theta d(\mathbf{x}_{s}, \mathbf{x}_i) \bigr\} .</span></p>
+<p>Build a local linear system <span class="math display">\widehat{y}_s = \mathbf{x}_s^\top \boldsymbol{\beta}_s  .</span></p>
 <p>For all <span class="math inline">s \in \mathcal{P}</span>, compare <span class="math inline">\widehat{y}_s</span> to true <span class="math inline">y_s</span>, and calculate <span class="math inline">\rho</span>.</p>
 </section>
 <section id="convergent-cross-mapping" class="slide level2">
@@ -637,53 +639,9 @@ Dr Patrick Laub
 <p>😊 Give it a try, feedback would be very welcome.</p>
 <p><br></p>
 <p>😍 If you’re talented in causal inference or programming (Stata/Mata, R, Javascript, C++, Python), we’d love contributions!</p>
-<p><br></p>
-<p>😎 “We actually also have a PhD scholarship if we have a domestic applicant who can commit like in next week” (need <span class="math inline">\ge</span> 85 in a 4 year degree)</p>
-</section></section>
-<section>
-<section id="appendix" class="title-slide slide level1 center" data-background-image="unsw-yellow-shape.png" data-visibility="uncounted">
-<h1>Appendix</h1>
 
-</section>
-<section id="linearnonlinear-dynamical-systems" class="slide level2" data-visibility="uncounted">
-<h2>Linear/nonlinear dynamical systems</h2>
-<p><br></p>
-<p>Say <span class="math inline">\mathbf{x}_t = (x_t, y_t, z_t)</span>, then if:</p>
-<div class="columns">
-<div class="column">
-<p><span class="math display"> \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} </span></p>
-<p>we have a linear system.</p>
-</div><div class="column">
-<p><span class="math display"> \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) </span></p>
-<p>we have a nonlinear system.</p>
-</div>
-</div>
-<blockquote>
-<p>Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)</p>
-</blockquote>
-<div class="footer">
-<p>We don’t fit a model for <span class="math inline">f</span>, non-parametrically use the data. Hence the name <em>empirical</em> dynamic modelling.</p>
-</div>
-</section>
-<section id="noise-unobserved-variables" class="slide level2" data-visibility="uncounted">
-<h2>Noise / unobserved variables?</h2>
-<p>Takens’ theorem to the rescue, though…</p>
-<blockquote>
-<p>Takens’ theorem is a deep mathematical result with far-reaching implications. Unfortunately, to really understand it, it requires a background in topology. (Munch et al.&nbsp;2020)</p>
-</blockquote>
-<div class="columns">
-<div class="column">
-<p><img data-src="takens-header.png"> <img data-src="takens-contents.png"></p>
-</div><div class="column">
-<p><img data-src="takens-simplified.png"></p>
-</div>
-</div>
-<div class="footer">
-<p>Source: Munch et al.&nbsp;(2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.</p>
-</div>
-<p><img src="unsw-logo.svg" class="slide-logo"></p>
-<div class="footer footer-default">
-<p>Patrick Laub, Time-Series and Forecasting Symposium, University of Sydney</p>
+<img src="unsw-logo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
+<p>Patrick Laub, Time Series and Forecasting Symposium, University of Sydney</p>
 </div>
 </section></section>
     </div>

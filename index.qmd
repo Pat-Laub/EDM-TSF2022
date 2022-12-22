@@ -1,7 +1,7 @@
 ---
 title: Empirical Dynamic Modelling
 subtitle: Automatic Causal Inference and Forecasting
-institute: Time-Series and Forecasting Symposium
+institute: Time Series and Forecasting Symposium
 author: Dr Patrick Laub
 date: 2 December 2022
 date-format: long
@@ -22,7 +22,7 @@ format:
       boardmarker-width: 5
       grid: false
     include-before: <div class="line right"></div>
-    footer: Patrick Laub, Time-Series and Forecasting Symposium, University of Sydney
+    footer: Patrick Laub, Time Series and Forecasting Symposium, University of Sydney
 highlight-style: breeze
 ---
 
@@ -35,51 +35,6 @@ highlight-style: breeze
 -->
 
 # Introduction {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
-
-## About me
-
-::: columns
-::: {.column width="65%"}
-
-- Software engineer & maths (UQ)
-- PhD in computational applied probability (Aarhus)
-- Actuarial science post-doc (Lyon)
-- Research software engineer (Uni Melbourne)
-- Actuarial science lecturer (UNSW)
-
-:::
-::: {.column width="35%"}
-
-![](hawkes-book-cover.jpeg)
-
-:::
-:::
-
-![](typical_cond_int2.svg){.absolute bottom=0 left=150 width="350"}
-
-::: footer
-Cf. [https://pat-laub.github.io](https://pat-laub.github.io).
-:::
-
-## Other unrelated past work {data-visibility="uncounted"}
-
-::: columns
-::: column
-
-<iframe src="https://pat-laub.github.io/approxbayescomp/" width="100%" height="600" style="border:none;"></iframe>
-
-:::
-::: column
-
-<iframe src="https://pat-laub.github.io/DeepLearningForActuaries/" width="100%" height="600" style="border:none;"></iframe>
-
-:::
-:::
-
-::: footer
-Cf. [https://pat-laub.github.io](https://pat-laub.github.io).
-:::
-
 
 ## Goal: automatic causal inference
 
@@ -152,6 +107,60 @@ $$
 
 then $y \Rightarrow x$, both $x, z \Rightarrow y$, and both $x, y \Rightarrow z$.
 
+
+## Linear/nonlinear dynamical systems {data-visibility="uncounted"}
+
+<br>
+
+Say $\mathbf{x}_t = (x_t, y_t, z_t)$, then if:
+
+::: columns
+::: column
+
+$$ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} $$
+
+we have a linear system.
+
+:::
+::: column
+
+$$ \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) $$
+
+we have a nonlinear system.
+
+:::
+:::
+
+> Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)
+
+::: footer
+We don't fit a model for $f$, non-parametrically use the data.
+Hence the name _empirical_ dynamic modelling. 
+:::
+
+## Noise or unobserved variables? {data-visibility="uncounted"}
+
+Takens' theorem to the rescue, though...
+
+> Takens' theorem is a deep mathematical result with far-reaching implications.
+> Unfortunately, to really understand it, it requires a background in topology.
+> (Munch et al. 2020)
+
+::: columns
+::: column
+![](takens-header.png)
+![](takens-contents.png)
+:::
+::: column
+![](takens-simplified.png)
+:::
+:::
+
+::: footer
+Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.
+:::
+
+
 # Empirical Dynamic Modelling (EDM) {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
 
 ## Create lagged embeddings
@@ -160,14 +169,14 @@ then $y \Rightarrow x$, both $x, z \Rightarrow y$, and both $x, y \Rightarrow z$
 
 Given two time series, create $E$-length trajectories
 
-$$ \overleftarrow{\mathbf{x}}_t = (\text{Temp}_t, \text{Temp}_{t-1}, \dots, \text{Temp}_{t-(E-1)}) \in \mathbb{R}^{E} $$
+$$ \mathbf{x}_t = (\text{Temp}_t, \text{Temp}_{t-1}, \dots, \text{Temp}_{t-(E-1)}) \in \mathbb{R}^{E} $$
 
 and targets
 
 $$ y_t = \text{Crime}_{t} .$$
 
 ::: {.callout-note}
-The $\overleftarrow{\mathbf{x}}_t$'s are called _points_ (on the shadow manifold).
+The $\mathbf{x}_t$'s are called _points_ (on the shadow manifold).
 :::
 
 <!-- 
@@ -177,7 +186,7 @@ Use lags of the time series!
 
 Given $x_t$ time series, create $E$-length trajectories
 
-$$ \overleftarrow{\mathbf{x}}_t = (x_t, x_{t-\tau}, x_{t-2\tau}, \dots, x_{t-(E-1)\tau}) \in \mathbb{R}^{E} , t=1,2,\dots$$
+$$ \mathbf{x}_t = (x_t, x_{t-\tau}, x_{t-2\tau}, \dots, x_{t-(E-1)\tau}) \in \mathbb{R}^{E} , t=1,2,\dots$$
 
 and targets
 
@@ -189,16 +198,16 @@ Parametrised by $\tau, p \in \mathbb{N}$.
 
 ## Split the data
 
-- $\mathcal{L} = \{ (\overleftarrow{\mathbf{x}}_1, y_1) , \dots , (\overleftarrow{\mathbf{x}}_{n} , y_{n}) \}$
+- $\mathcal{L} = \{ (\mathbf{x}_1, y_1) , \dots , (\mathbf{x}_{n} , y_{n}) \}$
 is _library set_,
-- $\mathcal{P} = \{ (\overleftarrow{\mathbf{x}}_{n+1}, y_{n+1}) , \dots , (\overleftarrow{\mathbf{x}}_{T}, y_{T}) \}$
+- $\mathcal{P} = \{ (\mathbf{x}_{n+1}, y_{n+1}) , \dots , (\mathbf{x}_{T}, y_{T}) \}$
 is _prediction set_.
 
 <br>
 
-For point $\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}$, pretend we don't know $y_s$ and try to predict it.
+For point $\mathbf{x}_{s} \in \mathcal{P}$, pretend we don't know $y_s$ and try to predict it.
 
-$$ \forall \, \overleftarrow{\mathbf{x}} \in \mathcal{L} \quad \text{ find } \quad d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}) $$
+$$ \forall \, \mathbf{x} \in \mathcal{L} \quad \text{ find } \quad d(\mathbf{x}_{s}, \mathbf{x}) $$
 
 This is computationally demanding.
 
@@ -206,11 +215,11 @@ This is computationally demanding.
 
 <br>
 
-For point $\overleftarrow{\mathbf{x}}_{s} \in \mathcal{P}$, find $k$ nearest neighbours in $\mathcal{L}$.
+For point $\mathbf{x}_{s} \in \mathcal{P}$, find $k$ nearest neighbours in $\mathcal{L}$.
 
 Say, e.g., $k=2$ and the neighbours are 
 
-$$\mathcal{NN}_k = \bigl( (\overleftarrow{\mathbf{x}}_{3}, y_3), (\overleftarrow{\mathbf{x}}_{5}, y_5) \bigr)$$
+$$\mathcal{NN}_k = \bigl( (\mathbf{x}_{3}, y_3), (\mathbf{x}_{5}, y_5) \bigr)$$
 
 The _simplex method_ predicts
 
@@ -223,10 +232,10 @@ $$\widehat{y}_s = w_1 y_3 + w_2 y_5 .$$
 _Sequential Locally Weighted Global Linear Maps (S-map)_
 
 Weight the points by distance
-$$ w_i = \exp\bigl\{ - \theta d(\overleftarrow{\mathbf{x}}_{s}, \overleftarrow{\mathbf{x}}_i) \bigr\} .$$
+$$ w_i = \exp\bigl\{ - \theta d(\mathbf{x}_{s}, \mathbf{x}_i) \bigr\} .$$
 
 Build a local linear system
-$$\widehat{y}_s = \mathbf{A}_s \overleftarrow{\mathbf{x}}_s .$$
+$$\widehat{y}_s = \mathbf{x}_s^\top \boldsymbol{\beta}_s  .$$
 
 For all $s \in \mathcal{P}$, compare $\widehat{y}_s$ to true $y_s$, and calculate $\rho$.
 
@@ -303,74 +312,3 @@ git rev-list --all --count
 <br>
 
 😍 If you're talented in causal inference or programming (Stata/Mata, R, Javascript, C++, Python), we'd love contributions! 
-
-<br>
-
-😎 "We actually also have a PhD scholarship if we have a domestic applicant who can commit like in next week" (need $\ge$ 85 in a 4 year degree)
-
-<!--
-## Package features
-
-- Fast, optimised multithreaded C++ code
-- Easy to use automated analysis
-- Handles panel data
-- Handles irregularly sampled time series / missing data
-- Highly "vectorised" (7 for loops deep)
-- GPU acceleration
-
-- Well-engineered (3 OS, CI, count # LOC tessts)
--->
-
-# Appendix {data-background-image="unsw-yellow-shape.png" data-visibility="uncounted"}
-
-## Linear/nonlinear dynamical systems {data-visibility="uncounted"}
-
-<br>
-
-Say $\mathbf{x}_t = (x_t, y_t, z_t)$, then if:
-
-::: columns
-::: column
-
-$$ \mathbf{x}_{t+1} = \mathbf{A} \mathbf{x}_{t} $$
-
-we have a linear system.
-
-:::
-::: column
-
-$$ \mathbf{x}_{t+1} = f(\mathbf{x}_{t}) $$
-
-we have a nonlinear system.
-
-:::
-:::
-
-> Using a term like nonlinear science is like referring to the bulk of zoology as the study of non-elephant animals. (Stanisław Ulam)
-
-::: footer
-We don't fit a model for $f$, non-parametrically use the data.
-Hence the name _empirical_ dynamic modelling. 
-:::
-
-## Noise / unobserved variables? {data-visibility="uncounted"}
-
-Takens' theorem to the rescue, though...
-
-> Takens' theorem is a deep mathematical result with far-reaching implications.
-> Unfortunately, to really understand it, it requires a background in topology.
-> (Munch et al. 2020)
-
-::: columns
-::: column
-![](takens-header.png)
-![](takens-contents.png)
-:::
-::: column
-![](takens-simplified.png)
-:::
-:::
-
-::: footer
-Source: Munch et al. (2020), Frequently asked questions about nonlinear dynamics and empirical dynamic modelling, ICES Journal of Marine Science.
-:::
